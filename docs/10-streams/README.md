@@ -173,6 +173,18 @@ docker compose exec -w /workspace/docs/10-streams/examples java mvn compile exec
 3. `average`の出力を追加し、平均時間がどう表示されるか確認してください。
 4. 条件に合う要素がない`findFirst`を作り、`orElse("なし")`が使われることを確認してください。
 
+## よくあるエラー
+
+### 同じStreamを再利用してしまう
+
+```java
+Stream<String> stream = names.stream();
+stream.forEach(System.out::println);
+// stream.forEach(System.out::println); // 再利用できない
+```
+
+終端処理を呼んだStreamは消費されます。必要ならもう一度`names.stream()`から作ります。
+
 ## 理解チェック
 
 1. `filter`、`map`、`toList`はそれぞれ何をしますか？

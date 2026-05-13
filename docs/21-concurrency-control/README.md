@@ -78,6 +78,12 @@ docker compose exec -w /workspace/docs/21-concurrency-control/examples java mvn 
 2. `UnsafeCounter.increment()`に`synchronized`を付け、結果が安定するか確認してください。
 3. `AtomicInteger`を使う場合、`incrementAndGet`が「読み取り、加算、書き戻し」を安全にまとめていることを意識してください。
 
+## よくあるエラー
+
+### `count++`を安全な1操作だと思ってしまう
+
+`count++`は「読む」「1足す」「書き戻す」に分かれます。複数スレッドから同時に実行する場合は、`AtomicInteger`や`synchronized`を検討します。
+
 ## 理解チェック
 
 1. `count++`が原子的でないとはどういう意味ですか？

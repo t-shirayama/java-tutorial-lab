@@ -171,6 +171,18 @@ docker compose exec -w /workspace/docs/13-execution-and-control-flow/examples ja
 3. `"skip"`という要素を追加し、`continue`でその要素だけ飛ばす処理を追加してください。
 4. `while`ループの回数を変え、条件が`false`になると止まることを確認してください。
 
+## よくあるエラー
+
+### whileの終了条件を変え忘れる
+
+```java
+while (remaining > 0) {
+    System.out.println(remaining);
+}
+```
+
+`remaining`が変わらないため無限ループになります。ループ内で終了条件に近づく処理を書きます。
+
 ## 理解チェック
 
 1. `main`メソッドはいつ呼ばれますか？

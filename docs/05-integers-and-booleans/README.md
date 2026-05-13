@@ -150,6 +150,22 @@ feature enabled: true
 - 明示的なキャストは、値の範囲に注意して使う
 - 比較演算の結果は`boolean`になる
 
+## よくあるエラー
+
+### 整数除算で小数になると思ってしまう
+
+```java
+int result = 5 / 2;
+System.out.println(result); // 2
+```
+
+小数として計算したい場合は、少なくとも片方を小数にします。
+
+```java
+double result = 5 / 2.0;
+System.out.println(result); // 2.5
+```
+
 ## 理解チェック
 
 1. `5 / 2`の結果はなぜ`2`になりますか？

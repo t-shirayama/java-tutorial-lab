@@ -125,6 +125,20 @@ docker compose exec -w /workspace/docs/14-exceptions/examples java mvn compile e
 3. `StudyResource`の`use`で例外を送出し、それでも`close`が呼ばれることを確認してください。
 4. 広い`catch (Exception exception)`へ一度書き換えたあと、何が分かりにくくなるかを確認し、元に戻してください。
 
+## よくあるエラー
+
+### 例外を握りつぶす
+
+```java
+try {
+    readConfig();
+} catch (Exception e) {
+    // 何もしない
+}
+```
+
+原因が分からなくなります。少なくともログに残す、代替値を返す、呼び出し元へ伝え直す、のどれかを選びます。
+
 ## 理解チェック
 
 1. チェック例外と非チェック例外はどう違いますか？

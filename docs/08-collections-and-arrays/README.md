@@ -202,6 +202,22 @@ Level 3: `queue.removeFirst()`を2回呼び出したあと、3回目も呼び出
 - 先頭と末尾から出し入れしたいなら`ArrayDeque`
 - 要素数が固定でシンプルに扱いたいなら配列
 
+## よくあるエラー
+
+### 変更不可Listに追加してしまう
+
+```java
+List<String> names = List.of("Java", "Spring");
+names.add("Maven"); // UnsupportedOperationException
+```
+
+変更したい場合は、変更可能なリストへコピーします。
+
+```java
+List<String> mutable = new ArrayList<>(names);
+mutable.add("Maven");
+```
+
 ## 理解チェック
 
 1. 順序を保ちたいときはどのコレクションを選びますか？

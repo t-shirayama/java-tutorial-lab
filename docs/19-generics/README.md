@@ -108,6 +108,18 @@ docker compose exec -w /workspace/docs/19-generics/examples java mvn compile exe
 2. `sum(List.of(1, 2, 3))`や`sum(List.of(1.5, 2.5))`を追加し、`? extends Number`が複数の数値型を受け取れることを確認してください。
 3. `addDefaultScores`の引数を`List<? extends Integer>`に変えると、なぜ追加できなくなるのか考えてください。
 
+## よくあるエラー
+
+### raw typeを使ってしまう
+
+```java
+List raw = new ArrayList();
+raw.add("Java");
+raw.add(123);
+```
+
+型を指定しないと、間違った型の混入に気づきにくくなります。`List<String>`のように要素の型を指定します。
+
 ## 理解チェック
 
 1. `List<String>`とraw typeの違いは何ですか？

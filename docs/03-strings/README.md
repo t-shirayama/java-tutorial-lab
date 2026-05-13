@@ -155,6 +155,22 @@ Level 3: `String maybeNull = null;`を追加し、`"java".equals(maybeNull)`と`
 - `==`の結果がたまたま`true`になる文字列もありますが、内容比較の意図なら`equals`を使います。
 - `toString`は人間が読む表示向けです。CSVやJSONのような正式な保存形式として使う場合は、別の設計を考えます。
 
+## よくあるエラー
+
+### 文字列を`==`で比較してしまう
+
+```java
+String a = new String("Java");
+String b = new String("Java");
+System.out.println(a == b); // false
+```
+
+`==`は同じオブジェクトかを比べます。文字列の内容を比べるときは`equals`を使います。
+
+```java
+System.out.println(a.equals(b)); // true
+```
+
 ## 理解チェック
 
 1. `String`が不変であるとはどういう意味ですか？

@@ -127,6 +127,24 @@ docker compose exec -w /workspace/docs/12-statements-expressions-and-operators/e
 3. 文字列結合で`"progress: " + completed + total`と`"progress: " + (completed + total)`の違いを確認してください。
 4. `topic == "Java"`のような比較を`"Java".equals(topic)`へ直し、オブジェクト比較の基本を確認してください。
 
+## よくあるエラー
+
+### nullチェックの順番を間違える
+
+```java
+if (user.isActive() && user != null) {
+    System.out.println("active");
+}
+```
+
+左から評価されるため、先に`user != null`を確認します。
+
+```java
+if (user != null && user.isActive()) {
+    System.out.println("active");
+}
+```
+
 ## 理解チェック
 
 1. 文と式の違いは何ですか？
