@@ -359,6 +359,74 @@ blockquote {
   border-left: 4px solid var(--line);
 }
 
+table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 24px 0 30px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  border-spacing: 0;
+  border-collapse: separate;
+  background: rgba(255, 253, 247, 0.82);
+  box-shadow: 0 14px 30px var(--shadow);
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+thead {
+  background: linear-gradient(180deg, #e5f0ed 0%, #d8e8e4 100%);
+  color: var(--accent-deep);
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(242, 236, 223, 0.58);
+}
+
+tbody tr:hover {
+  background: rgba(226, 241, 236, 0.72);
+}
+
+th,
+td {
+  min-width: 8.5rem;
+  padding: 12px 16px;
+  vertical-align: top;
+  border-right: 1px solid rgba(222, 210, 189, 0.9);
+  border-bottom: 1px solid rgba(222, 210, 189, 0.9);
+}
+
+th {
+  font-weight: 700;
+  text-align: left;
+  white-space: nowrap;
+}
+
+td {
+  overflow-wrap: anywhere;
+}
+
+th:last-child,
+td:last-child {
+  border-right: 0;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+th:first-child,
+td:first-child {
+  min-width: 9rem;
+  font-weight: 700;
+}
+
+th:last-child,
+td:last-child {
+  min-width: 24rem;
+}
+
 @media (max-width: 860px) {
   .layout {
     display: block;
