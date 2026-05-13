@@ -61,6 +61,8 @@ System.out.println(first.equals(second));
 
 大文字と小文字を区別せずに比べたい場合は、`equalsIgnoreCase`も使えます。
 
+`equals`を呼ぶ側が`null`の可能性があるときは注意が必要です。たとえば、`input.equals("java")`は`input`が`null`だと例外になります。まだ`null`の扱いに慣れていないうちは、定数側から`"java".equals(input)`と書くと安全に比較できます。
+
 ## 3-5 オブジェクトの文字列変換
 
 Javaのすべてのクラスは、`Object`クラスをもとにしています。`Object`には`toString`メソッドがあり、オブジェクトを文字列として表すときに使われます。
@@ -130,6 +132,20 @@ StudyTopic{name='文字列', level='基本'}
 - `String`のメソッドは、元の文字列を直接書き換えない
 - 文字列を組み立てる処理は、`StringBuilder`を使うと意図が読みやすい
 - 内容比較は`equals`、表示用の文字列化は`toString`と役割が違う
+
+## 演習
+
+Level 1: `rawText`を`"  Java\n"`のように変えて、`strip`が改行や空白をどう扱うか確認してください。表示が見づらい場合は、前後に`[`と`]`を付けて出力すると違いが分かりやすくなります。
+
+Level 2: `StringBuilder`の学習メニューに`strip`と`equalsIgnoreCase`を追加してください。`append`の順番が、そのまま出力順になることを確認します。
+
+Level 3: `String maybeNull = null;`を追加し、`"java".equals(maybeNull)`と`maybeNull.equals("java")`の違いを試してください。例外が出たら、エラーメッセージの最初の行と、どの行で起きたかを読んでみましょう。
+
+つまずきポイント:
+
+- `String`は変更できません。`rawText.strip();`だけを書いても、戻り値を変数へ入れなければ結果を使えません。
+- `==`の結果がたまたま`true`になる文字列もありますが、内容比較の意図なら`equals`を使います。
+- `toString`は人間が読む表示向けです。CSVやJSONのような正式な保存形式として使う場合は、別の設計を考えます。
 
 ## 参考資料
 

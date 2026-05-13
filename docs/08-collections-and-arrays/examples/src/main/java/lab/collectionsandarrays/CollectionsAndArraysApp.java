@@ -18,10 +18,23 @@ public class CollectionsAndArraysApp {
         queue.addLast("2章");
         String[] commands = {"compile", "exec:java"};
 
+        System.out.println("== List ==");
         System.out.println("tasks: " + tasks);
+        System.out.println();
+
+        System.out.println("== Map ==");
         System.out.println("文法 score: " + scores.get("文法"));
+        System.out.println();
+
+        System.out.println("== Set ==");
         System.out.println("tags: " + tags);
+        System.out.println();
+
+        System.out.println("== ArrayDeque ==");
         System.out.println("next: " + queue.removeFirst());
+        System.out.println();
+
+        System.out.println("== 配列 ==");
         for (String command : commands) {
             System.out.println("command: " + command);
         }

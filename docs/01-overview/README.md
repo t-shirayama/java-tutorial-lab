@@ -102,6 +102,20 @@ OS: ...
 - JavaやOSの情報は、コードを書かなくてもシステムプロパティから取得できる
 - Mavenを使うと、コンパイルと実行を同じ流れで行える
 
+## 演習
+
+Level 1: `Javaチュートリアルへようこそ`の文字を、自分の学習目標に変えてください。再実行して、ソースコードの変更が出力へ反映されることを確認します。
+
+Level 2: `System.getProperty("user.language")`を追加して、実行環境の言語設定を表示してください。`java.version`や`os.name`と同じように、JVMから環境情報を取り出せることを観察します。
+
+Level 3: Dockerで実行した結果と、ローカルJavaで実行した結果を比べてください。`OS`や`Java vendor`が違う場合は、「プログラムは同じでも、実行環境は変わる」ことをメモしておきましょう。
+
+つまずいたときの見方:
+
+- `mvn: command not found` は、ローカルにMavenが入っていない状態です。Docker実行に切り替えると、このリポジトリで用意したMaven環境を使えます。
+- `Cannot connect to the Docker daemon` は、Docker DesktopなどのDocker本体が起動していない状態でよく起きます。
+- `docker compose exec` は起動済みコンテナで実行するコマンドです。先に `docker compose up -d --build` を実行してください。
+
 ## 参考資料
 
 公式:

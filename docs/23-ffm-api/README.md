@@ -1,18 +1,32 @@
 # 23章 FFM API
 
-この章では、Foreign Function & Memory API（FFM API）の概要を学びます。Java 21ではFFM APIはプレビュー機能です。実際に`java.lang.foreign`の型を直接使うコードを書くには、コンパイル時と実行時に`--enable-preview`が必要です。この章のMavenサンプルは通常の`mvn compile exec:java`で動くように、APIの存在確認と外部メモリに近い概念の観察に絞ります。
+この章では、Foreign Function & Memory API（FFM API）の概要を学びます。Java 21ではFFM APIはプレビュー機能です。実際に`java.lang.foreign`の型を直接使うコードを書くには、コンパイル時と実行時に`--enable-preview`が必要です。
+
+この章のMavenサンプルは通常の`mvn compile exec:java`で動くように、APIの存在確認と外部メモリに近い概念の観察に絞ります。FFMそのものを本格的に使う章ではなく、「何のためのAPIで、なぜ慎重に扱うか」を理解する入口です。
 
 ## 23-1 FFM API（Foreign Function & Memory API）
 
 FFM APIは、JVM外のメモリや関数とやり取りするためのAPIです。パッケージは`java.lang.foreign`です。
 
+JVMの外にあるメモリやネイティブ関数に触れると、Javaだけで完結するコードよりもOS、CPU、ネイティブライブラリの影響を受けやすくなります。最初は標準APIの通常の範囲で十分かを確認し、それでも必要な場合に検討します。
+
 ## 23-2 外部メモリへのアクセス
 
-FFM APIでは、`Arena`でメモリの寿命を管理し、`MemorySegment`でメモリ領域を扱います。
+FFM APIでは、`Arena`でメモリの寿命を管理し、`MemorySegment`でメモリ領域を扱います。メモリは「いつ確保され、いつ解放されるか」が重要です。
+
+サンプルは直接FFMコードを書かず、`ByteBuffer.allocateDirect`で通常ヒープ外に近いメモリを扱う感覚を確認します。
 
 ## 23-3 外部関数呼び出し
 
 `Linker`などを使うと外部関数を呼び出せます。ただし、OSやネイティブライブラリに依存するため、最初は公式ドキュメントの例を読み、実行環境を限定して試すのが安全です。
+
+FFMを学ぶ前に、例外処理、リソース管理、メモリの寿命、ビルドオプションを理解しておくとつまずきにくくなります。
+
+## 23-4 Java 21での扱い
+
+Java 21 LTSではFFM APIはプレビュー機能です。このリポジトリはJava 21基準のため、通常サンプルでは`--enable-preview`なしで動く範囲に留めています。
+
+公式のFFMサンプルを試す場合は、コンパイルと実行の両方でプレビューを有効にしてください。学習用リポジトリでプレビュー機能を使うときは、READMEに必要なオプションを明記し、通常の章サンプルと混ぜないほうが安全です。
 
 ## 実行して確認する
 
@@ -30,7 +44,9 @@ docker compose exec -w /workspace/docs/23-ffm-api/examples java mvn compile exec
 
 ## ハンズオン
 
-`ByteBuffer.allocateDirect`で確保するサイズや書き込む整数値を変え、JVMの通常ヒープ外に近いメモリを扱う感覚を確認してください。そのあと、公式ドキュメントのFFM API例を`--enable-preview`付きで試してください。
+1. `ByteBuffer.allocateDirect`で確保するサイズや書き込む整数値を変え、JVMの通常ヒープ外に近いメモリを扱う感覚を確認してください。
+2. `Class.forName("java.lang.foreign.MemorySegment")`の出力から、Java 21にFFM APIの型が存在することを確認してください。
+3. 公式ドキュメントのFFM API例を試す場合は、必ず`--enable-preview`をコンパイル時と実行時の両方へ付けてください。
 
 ## 参考資料
 

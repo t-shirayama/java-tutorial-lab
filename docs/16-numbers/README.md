@@ -1,14 +1,16 @@
 # 16章 数値
 
-この章では、整数以外の数値や、正確な計算が必要な場面で使うクラスを学びます。
+この章では、整数以外の数値や、正確な計算が必要な場面で使うクラスを学びます。特に、`double`で小数を扱う場合と、`BigDecimal`で10進数を扱う場合の違いを手を動かして確認します。
 
 ## 16-1 浮動小数点数
 
-`double`は小数を扱えますが、2進数で表すため10進小数を常に正確に表せるわけではありません。
+`double`は小数を扱えますが、2進数で表すため10進小数を常に正確に表せるわけではありません。たとえば`0.1 + 0.2`が、数学で期待する`0.3`ぴったりに表示されないことがあります。
+
+測定値や近似値なら`double`が便利です。一方で、金額や数量のように10進数としての正確さが必要な値では`BigDecimal`を検討します。
 
 ## 16-2 型変換
 
-数値型同士の変換では、範囲や小数部の扱いに注意します。
+数値型同士の変換では、範囲や小数部の扱いに注意します。`(int) 12.9`のようなキャストでは、小数部は四捨五入ではなく切り捨てられます。
 
 ## 16-3 数値クラス（数値ラッパークラス）
 
@@ -21,6 +23,10 @@
 ## 16-5 BigIntegerとBigDecimal
 
 大きな整数には`BigInteger`、10進数として正確に扱いたい値には`BigDecimal`を使えます。
+
+`BigDecimal`で小数を書きたいときは、`new BigDecimal("0.1")`のように文字列から作ると、10進数の`0.1`として扱えます。`new BigDecimal(0.1)`は、すでに`double`として近似された値から作るため、意図しない細かい誤差が見えます。
+
+割り切れない割り算では、桁数と丸め方を指定します。サンプルの`RoundingMode.HALF_UP`は、一般的な四捨五入に近い丸め方です。
 
 ## 実行して確認する
 
@@ -38,7 +44,9 @@ docker compose exec -w /workspace/docs/16-numbers/examples java mvn compile exec
 
 ## ハンズオン
 
-`BigDecimal`を`new BigDecimal("0.1")`から作る場合と`BigDecimal.valueOf(0.1)`の場合を比べてみてください。
+1. `new BigDecimal("0.1")`、`new BigDecimal(0.1)`、`BigDecimal.valueOf(0.1)`の出力を比べてください。
+2. `BigDecimal.ONE.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP)`の桁数を`3`や`4`に変えてください。
+3. `RoundingMode.HALF_UP`を`DOWN`や`CEILING`に変え、丸め結果の違いを確認してください。
 
 ## 参考資料
 
@@ -46,6 +54,7 @@ docker compose exec -w /workspace/docs/16-numbers/examples java mvn compile exec
 
 - [Java SE 21 API: BigInteger](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/BigInteger.html)
 - [Java SE 21 API: BigDecimal](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/BigDecimal.html)
+- [Java SE 21 API: RoundingMode](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html)
 - [Java Language Specification, Java SE 21 Edition: 4.2 Primitive Types and Values](https://docs.oracle.com/javase/specs/jls/se21/html/jls-4.html#jls-4.2)
 
 補助:
