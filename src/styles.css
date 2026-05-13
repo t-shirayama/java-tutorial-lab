@@ -833,12 +833,14 @@ input {
 .markdown-body pre {
   position: relative;
   overflow: auto;
-  padding: 42px 20px 18px;
+  margin: 22px 0;
+  padding: 48px 22px 22px;
+  color: #d4d4d4;
   background: #1e1e1e;
-  border: 1px solid #2d3a4a;
-  border-left: 5px solid #3794ff;
-  border-radius: 12px;
-  box-shadow: 0 18px 36px rgba(13, 24, 39, 0.2);
+  border: 1px solid #32363f;
+  border-left: 4px solid #007acc;
+  border-radius: 10px;
+  box-shadow: 0 18px 36px rgba(13, 24, 39, 0.22);
 }
 
 .markdown-body pre::before {
@@ -846,18 +848,32 @@ input {
   top: 0;
   left: 0;
   right: 0;
-  height: 28px;
-  padding: 0 14px;
-  color: #c5c5c5;
+  height: 34px;
+  padding: 0 18px 0 72px;
+  color: #cccccc;
   content: "SOURCE CODE";
   background: #252526;
-  border-bottom: 1px solid #333842;
-  border-radius: 11px 11px 0 0;
+  border-bottom: 1px solid #3c3c3c;
+  border-radius: 9px 9px 0 0;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  line-height: 28px;
+  line-height: 34px;
+}
+
+.markdown-body pre::after {
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  width: 10px;
+  height: 10px;
+  content: "";
+  background: #ff5f57;
+  border-radius: 50%;
+  box-shadow:
+    18px 0 0 #ffbd2e,
+    36px 0 0 #28c840;
 }
 
 .markdown-body pre code {
@@ -865,9 +881,44 @@ input {
   padding: 0;
   color: #d4d4d4;
   background: transparent;
-  font-size: 0.9rem;
-  line-height: 1.7;
+  border-radius: 0;
+  font-size: 0.92rem;
+  line-height: 1.75;
   tab-size: 2;
+}
+
+.markdown-body pre .hljs-keyword,
+.markdown-body pre .hljs-selector-tag,
+.markdown-body pre .hljs-built_in,
+.markdown-body pre .hljs-name {
+  color: #569cd6;
+}
+
+.markdown-body pre .hljs-title,
+.markdown-body pre .hljs-title.class_,
+.markdown-body pre .hljs-title.function_ {
+  color: #dcdcaa;
+}
+
+.markdown-body pre .hljs-string,
+.markdown-body pre .hljs-attr {
+  color: #ce9178;
+}
+
+.markdown-body pre .hljs-number,
+.markdown-body pre .hljs-literal {
+  color: #b5cea8;
+}
+
+.markdown-body pre .hljs-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.markdown-body pre .hljs-meta,
+.markdown-body pre .hljs-variable,
+.markdown-body pre .hljs-params {
+  color: #9cdcfe;
 }
 
 .markdown-body table {

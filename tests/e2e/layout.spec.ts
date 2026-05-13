@@ -72,6 +72,28 @@ test.describe("tutorial layout", () => {
     expect(metrics.sidebarRight).toBeLessThanOrEqual(metrics.mainLeft + 1);
   });
 
+  test("code blocks render as dark editor panels", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
+
+    await page.goto("/#/chapters/07-strings");
+    const codeBlock = page.locator(".markdown-body pre").first();
+
+    await expect(codeBlock).toBeVisible();
+
+    const styles = await codeBlock.evaluate((element) => {
+      const computed = window.getComputedStyle(element);
+      return {
+        backgroundColor: computed.backgroundColor,
+        borderLeftColor: computed.borderLeftColor,
+        paddingTop: Number.parseFloat(computed.paddingTop)
+      };
+    });
+
+    expect(styles.backgroundColor).toBe("rgb(30, 30, 30)");
+    expect(styles.borderLeftColor).toBe("rgb(0, 122, 204)");
+    expect(styles.paddingTop).toBeGreaterThanOrEqual(48);
+  });
+
   test("mobile chapter page hides sidebar until the menu is opened", async ({ page }, testInfo) => {
     test.skip(!testInfo.project.name.includes("mobile"), "mobile-only layout assertions");
 
