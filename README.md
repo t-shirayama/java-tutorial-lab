@@ -50,7 +50,7 @@ docker compose down
 
 ## READMEをHTMLで読む方法
 
-ルートREADMEと各章のREADMEは、GitHub Actionsで単一HTMLに変換し、GitHub Pagesで公開します。リポジトリ設定のPages Sourceは`GitHub Actions`を選んでください。
+ルートREADMEと各章のREADMEは、GitHub ActionsでHTMLに変換し、GitHub Pagesで公開します。トップページと章ごとのページに分けて生成します。リポジトリ設定のPages Sourceは`GitHub Actions`を選んでください。
 
 ローカルでHTMLを生成する場合:
 
@@ -59,7 +59,7 @@ python3 -m pip install -r requirements.txt
 python3 scripts/build_readme_html.py
 ```
 
-生成されたHTMLは`_site/index.html`に出力されます。コードブロックはPython-MarkdownとPygmentsでシンタックスハイライトします。
+生成されたHTMLは`_site/index.html`と`_site/chapters/`以下に出力されます。コードブロックはPython-MarkdownとPygmentsでシンタックスハイライトします。
 
 ## 学習の進め方
 

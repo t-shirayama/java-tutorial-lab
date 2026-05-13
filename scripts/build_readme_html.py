@@ -17,33 +17,33 @@ OUTPUT_FILE = OUTPUT_DIR / "index.html"
 @dataclass(frozen=True)
 class ReadmePage:
     title: str
-    anchor: str
+    slug: str
     path: Path
     markdown_text: str
 
 
 def main() -> None:
     pages = collect_readmes()
-    body = "\n".join(render_page(page) for page in pages)
-    nav = render_nav(pages)
-    html_text = render_html(nav, body)
-
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    OUTPUT_FILE.write_text(html_text, encoding="utf-8")
-    print(f"Generated {OUTPUT_FILE.relative_to(ROOT)}")
+
+    for page in pages:
+        output_file = output_path(page)
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        output_file.write_text(render_html(pages, page), encoding="utf-8")
+        print(f"Generated {output_file.relative_to(ROOT)}")
 
 
 def collect_readmes() -> list[ReadmePage]:
-    pages = [make_page(ROOT / "README.md", "top")]
+    pages = [make_page(ROOT / "README.md", "index")]
     chapter_paths = sorted((ROOT / "docs").glob("*/README.md"), key=chapter_sort_key)
-    pages.extend(make_page(path, chapter_anchor(path)) for path in chapter_paths)
+    pages.extend(make_page(path, path.parent.name) for path in chapter_paths)
     return pages
 
 
-def make_page(path: Path, anchor: str) -> ReadmePage:
+def make_page(path: Path, slug: str) -> ReadmePage:
     markdown_text = path.read_text(encoding="utf-8")
     title = extract_title(markdown_text) or path.parent.name
-    return ReadmePage(title=title, anchor=anchor, path=path, markdown_text=markdown_text)
+    return ReadmePage(title=title, slug=slug, path=path, markdown_text=markdown_text)
 
 
 def chapter_sort_key(path: Path) -> tuple[int, str]:
@@ -53,10 +53,6 @@ def chapter_sort_key(path: Path) -> tuple[int, str]:
     return 10_000, path.parent.name
 
 
-def chapter_anchor(path: Path) -> str:
-    return f"chapter-{path.parent.name}"
-
-
 def extract_title(markdown_text: str) -> str | None:
     for line in markdown_text.splitlines():
         if line.startswith("# "):
@@ -64,15 +60,31 @@ def extract_title(markdown_text: str) -> str | None:
     return None
 
 
-def render_page(page: ReadmePage) -> str:
+def output_path(page: ReadmePage) -> Path:
+    if page.slug == "index":
+        return OUTPUT_FILE
+    return OUTPUT_DIR / "chapters" / page.slug / "index.html"
+
+
+def page_href(from_page: ReadmePage, to_page: ReadmePage) -> str:
+    from_dir = output_path(from_page).parent
+    to_file = output_path(to_page)
+    relative = to_file.relative_to(from_dir) if to_file.is_relative_to(from_dir) else None
+    if relative is None:
+        relative = Path("../" * len(from_dir.relative_to(OUTPUT_DIR).parts)) / to_file.relative_to(OUTPUT_DIR)
+    href = relative.as_posix()
+    return href if href else "index.html"
+
+
+def render_page(page: ReadmePage, pages: list[ReadmePage]) -> str:
     source_note = html.escape(str(page.path.relative_to(ROOT)))
     content = markdown.markdown(
-        normalize_links(page.markdown_text),
+        normalize_links(page.markdown_text, page, pages),
         extensions=["extra", "toc", "fenced_code", "codehilite"],
         extension_configs={
             "toc": {
                 "permalink": True,
-                "slugify": make_slugify(page.anchor),
+                "slugify": make_slugify(page.slug),
             },
             "codehilite": {
                 "guess_lang": False,
@@ -83,17 +95,18 @@ def render_page(page: ReadmePage) -> str:
         output_format="html5",
     )
     return f"""
-<section class="readme-section" id="{page.anchor}">
+<article class="readme-section">
   <div class="source-path">{source_note}</div>
   {content}
-</section>
+</article>
 """
 
 
-def normalize_links(markdown_text: str) -> str:
+def normalize_links(markdown_text: str, current_page: ReadmePage, pages: list[ReadmePage]) -> str:
     result = markdown_text
-    result = result.replace("](docs/", "](#chapter-")
-    result = re.sub(r"\]\(#chapter-([^)]+)/\)", r"](#chapter-\1)", result)
+    chapter_pages = {f"docs/{page.slug}/": page for page in pages if page.slug != "index"}
+    for markdown_href, page in chapter_pages.items():
+        result = result.replace(f"]({markdown_href})", f"]({page_href(current_page, page)})")
     return result
 
 
@@ -106,9 +119,9 @@ def make_slugify(prefix: str):
     return slugify
 
 
-def render_nav(pages: list[ReadmePage]) -> str:
+def render_nav(pages: list[ReadmePage], current_page: ReadmePage) -> str:
     items = "\n".join(
-        f'<a href="#{page.anchor}">{html.escape(page.title)}</a>' for page in pages
+        render_nav_item(page, current_page) for page in pages
     )
     return f"""
 <nav class="toc" aria-label="README目次">
@@ -118,14 +131,21 @@ def render_nav(pages: list[ReadmePage]) -> str:
 """
 
 
-def render_html(nav: str, body: str) -> str:
+def render_nav_item(page: ReadmePage, current_page: ReadmePage) -> str:
+    active = ' class="active"' if page == current_page else ""
+    return f'<a{active} href="{page_href(current_page, page)}">{html.escape(page.title)}</a>'
+
+
+def render_html(pages: list[ReadmePage], current_page: ReadmePage) -> str:
+    body = render_page(current_page, pages)
+    nav = render_nav(pages, current_page)
     pygments_css = HtmlFormatter(style="friendly").get_style_defs(".codehilite")
     return f"""<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Javaチュートリアル</title>
+  <title>{html.escape(current_page.title)} | Javaチュートリアル</title>
   <style>
 {base_css()}
 {pygments_css}
@@ -225,6 +245,11 @@ a {
 
 .toc a:hover {
   color: var(--accent);
+}
+
+.toc a.active {
+  color: var(--accent-deep);
+  font-weight: 700;
 }
 
 .content {
