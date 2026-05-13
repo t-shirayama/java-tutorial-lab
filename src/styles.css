@@ -211,16 +211,15 @@ input {
 }
 
 .app-body {
-  display: grid;
-  grid-template-columns: 380px minmax(0, 1fr);
-  align-items: start;
+  display: block;
 }
 
 .sidebar {
-  position: sticky;
+  position: fixed;
   top: 72px;
+  left: 0;
   z-index: 20;
-  width: 100%;
+  width: 380px;
   height: calc(100vh - 72px);
   overflow: auto;
   padding: 22px 28px 28px;
@@ -338,6 +337,7 @@ input {
   min-width: 0;
   position: relative;
   z-index: 1;
+  margin-left: 380px;
   padding: 32px clamp(24px, 4vw, 64px) 80px;
 }
 
@@ -886,7 +886,15 @@ input {
   }
 
   .app-body {
-    grid-template-columns: 320px minmax(0, 1fr);
+    display: block;
+  }
+
+  .sidebar {
+    width: 320px;
+  }
+
+  .main-pane {
+    margin-left: 320px;
   }
 
   .overview-grid,
@@ -954,6 +962,7 @@ input {
   }
 
   .main-pane {
+    margin-left: 0;
     padding: 22px 16px 56px;
   }
 
