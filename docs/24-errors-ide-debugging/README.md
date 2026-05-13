@@ -126,6 +126,61 @@ IntelliJ IDEAでもVS Codeでも、基本の流れは似ています。
 
 この章のサンプルでは、`calculateProgress`メソッドの中にブレークポイントを置くと、学習済みステップ数から進捗率が計算される流れを追えます。
 
+## よくあるエラー辞典
+
+### cannot find symbol
+
+変数名、メソッド名、クラス名が見つからないときに出ます。スペルミス、import漏れ、スコープ外の変数を使っていないか確認します。
+
+最初に見る場所:
+
+- エラーに出ているファイル名と行番号
+- `symbol:` の後ろに出ている名前
+- その名前を宣言した場所
+
+### NullPointerException
+
+`null`に対してメソッドやフィールドを使おうとしたときに出ます。どの変数が`null`だったのか、スタックトレースの自分のコード行から確認します。
+
+関連章:
+
+- [4章 変数とオブジェクト](../04-variables-and-objects/)
+- [25章 実務入口](../25-practical-basics/)
+
+### ClassCastException
+
+実際の型と違う型へ無理にキャストしたときに出ます。raw typeのコレクションを使っている場合にも起きやすいです。
+
+関連章:
+
+- [19章 ジェネリック型](../19-generics/)
+
+### UnsupportedOperationException
+
+対応していない操作を呼び出したときに出ます。たとえば`List.of()`で作った変更不可Listに`add()`すると発生します。
+
+関連章:
+
+- [8章 コレクションと配列](../08-collections-and-arrays/)
+
+### NumberFormatException
+
+数値に変換できない文字列を`Integer.parseInt`などへ渡したときに出ます。入力文字列が本当に数字だけか確認します。
+
+関連章:
+
+- [5章 整数とブーリアン](../05-integers-and-booleans/)
+
+### Mavenの依存解決エラー
+
+プラグインやライブラリを取得できないときに出ます。ネットワーク、依存関係のバージョン、`pom.xml`の書き間違い、実行ディレクトリを確認します。
+
+最初に見る場所:
+
+- `pom.xml`の依存関係とプラグイン設定
+- Mavenエラーの先頭に近い`Could not resolve`や`Plugin ... not found`
+- `pom.xml`がある`examples/`で実行しているか
+
 期待される出力例:
 
 ```text
