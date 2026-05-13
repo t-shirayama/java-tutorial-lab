@@ -1,0 +1,80 @@
+# 28章 Java基礎の次に学ぶこと
+
+この章では、Java基礎を終えたあとに進める学習テーマを整理します。すべてを一度に学ぶ必要はありません。作りたいものに合わせて選びます。
+
+## この章でできるようになること
+
+この章を終えると、次のことができるようになります。
+
+- Webアプリ、実務開発、並行処理など次の学習ルートを選べる
+- Spring BootやJUnitなど、次に調べる公式情報へ進める
+- Java基礎で学んだ内容が実務のどこにつながるか説明できる
+
+## Webアプリを作りたい場合
+
+JavaでWebアプリを作るなら、Spring Bootへ進むのが自然です。
+
+次に学ぶ候補:
+
+- Spring Boot
+- REST API
+- JSON
+- データベース
+- JPA
+- 入力バリデーション
+
+まずは、HTTPリクエストを受け取り、JSONを返す小さなREST APIから始めると学びやすいです。JSONやHTTPの入口は[22章 Web技術](../22-web-technologies/)でも扱っています。
+
+## 実務開発に進みたい場合
+
+実務では、コードを書くだけでなく、変更を安全に進めるための道具も重要です。
+
+次に学ぶ候補:
+
+- Git / GitHub
+- JUnit
+- Mockito
+- ログ
+- 設計原則
+- コードレビュー
+- CI
+
+JUnitの入口は[25章 実務入口](../25-practical-basics/)と[26章 総合演習](../26-capstone-task-cli/)で扱っています。次は、異常系テストやモックを使ったテストへ進むとよいです。
+
+## 並行処理を深めたい場合
+
+並行処理を深める場合は、まず共有状態を減らす設計を意識します。そのうえで、必要なAPIを少しずつ学びます。
+
+次に学ぶ候補:
+
+- ExecutorService
+- CompletableFuture
+- Structured Concurrency
+- 仮想スレッド
+- スレッドセーフなコレクション
+
+仮想スレッドの入口は[20章 スレッド](../20-threads/)、共有データの注意は[21章 同時実行制御](../21-concurrency-control/)で扱っています。
+
+## 公式資料への入口
+
+公式資料は、最初は難しく見えます。すべてを読むのではなく、「今使っているAPIのページを確認する」ことから始めると続けやすいです。
+
+## 理解チェック
+
+1. Webアプリを作りたい場合、次にどの技術を学ぶとよいですか？
+2. 実務開発では、JUnit以外にどんな道具が役立ちますか？
+3. 並行処理を深める前に、共有状態について何を考えるべきですか？
+
+## 参考資料
+
+公式:
+
+- [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/)
+- [Spring Framework Reference Documentation](https://docs.spring.io/spring-framework/reference/)
+- [JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/)
+- [Git Documentation](https://git-scm.com/doc)
+- [OpenJDK JEP 444: Virtual Threads](https://openjdk.org/jeps/444)
+
+補助:
+
+- なし
