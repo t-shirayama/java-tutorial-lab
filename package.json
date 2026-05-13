@@ -10,6 +10,8 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/noto-sans-jp": "^5.2.9",
     "@vitejs/plugin-react": "^5.1.1",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.561.0",
