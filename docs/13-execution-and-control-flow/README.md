@@ -124,6 +124,24 @@ for (String topic : topics) {
 }
 ```
 
+同じループ内で比べると、違いがさらに分かりやすくなります。
+
+```java
+for (String topic : topics) {
+    if ("skip".equals(topic)) {
+        continue;
+    }
+
+    if ("stop".equals(topic)) {
+        break;
+    }
+
+    System.out.println(topic);
+}
+```
+
+この例では、`skip`は表示されずに次の要素へ進みます。`stop`が出たら、そこで繰り返し全体が終了します。
+
 ## 実行して確認する
 
 ```bash
