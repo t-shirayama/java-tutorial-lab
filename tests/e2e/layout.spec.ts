@@ -77,8 +77,14 @@ test.describe("tutorial layout", () => {
 
     await page.goto("/#/chapters/07-strings");
     const codeBlock = page.locator(".markdown-body pre").first();
+    const sourceBlock = page.locator(".markdown-body pre.code-block-source").first();
+    const commandBlock = page.locator(".markdown-body pre.code-block-command").first();
+    const outputBlock = page.locator(".markdown-body pre.code-block-output").first();
 
     await expect(codeBlock).toBeVisible();
+    await expect(sourceBlock).toBeVisible();
+    await expect(commandBlock).toBeVisible();
+    await expect(outputBlock).toBeVisible();
 
     const styles = await codeBlock.evaluate((element) => {
       const computed = window.getComputedStyle(element);
@@ -92,6 +98,20 @@ test.describe("tutorial layout", () => {
     expect(styles.backgroundColor).toBe("rgb(30, 30, 30)");
     expect(styles.borderLeftColor).toBe("rgb(0, 122, 204)");
     expect(styles.paddingTop).toBeGreaterThanOrEqual(48);
+
+    const labels = await page.evaluate(() => {
+      const labelFor = (selector: string) =>
+        window.getComputedStyle(document.querySelector(selector)!, "::before").content.replaceAll("\"", "");
+      return {
+        source: labelFor(".code-block-source"),
+        command: labelFor(".code-block-command"),
+        output: labelFor(".code-block-output")
+      };
+    });
+
+    expect(labels.source).toBe("SOURCE CODE");
+    expect(labels.command).toBe("COMMAND");
+    expect(labels.output).toBe("OUTPUT");
   });
 
   test("mobile chapter page hides sidebar until the menu is opened", async ({ page }, testInfo) => {

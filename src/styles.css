@@ -864,16 +864,24 @@ input {
   right: 0;
   height: 34px;
   padding: 0 18px 0 72px;
-  color: #cccccc;
+  color: #9aa3ad;
   content: "SOURCE CODE";
   background: #252526;
   border-bottom: 1px solid #3c3c3c;
   border-radius: 9px 9px 0 0;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   line-height: 34px;
+}
+
+.markdown-body pre.code-block-command::before {
+  content: "COMMAND";
+}
+
+.markdown-body pre.code-block-output::before {
+  content: "OUTPUT";
 }
 
 .markdown-body pre::after {

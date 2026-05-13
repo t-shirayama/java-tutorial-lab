@@ -71,6 +71,27 @@ const markdown: MarkdownIt = new MarkdownIt({
   }
 });
 
+function codeBlockKind(language: string): "source" | "command" | "output" {
+  const normalized = language.toLowerCase();
+  if (["bash", "sh", "shell", "zsh", "powershell", "ps1", "console"].includes(normalized)) {
+    return "command";
+  }
+  if (["text", "txt", "plain", "output"].includes(normalized)) {
+    return "output";
+  }
+  return "source";
+}
+
+markdown.renderer.rules.fence = (tokens, index, options) => {
+  const token = tokens[index];
+  const language = token.info.trim().split(/\s+/)[0] ?? "";
+  const highlighted = options.highlight?.(token.content, language, "") ?? escapeHtml(token.content);
+  const kind = codeBlockKind(language);
+  const languageClass = language ? ` language-${escapeHtml(language)}` : "";
+
+  return `<pre class="code-block code-block-${kind}"><code class="${languageClass.trim()}">${highlighted}</code></pre>\n`;
+};
+
 function slugify(value: string): string {
   return value
     .trim()
