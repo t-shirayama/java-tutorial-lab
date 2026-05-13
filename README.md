@@ -48,6 +48,19 @@ docker compose down
 
 `docker compose run` はコマンド実行のたびに新しいコンテナを起動します。`docker compose exec` は、すでに起動しているコンテナの中でコマンドを実行するため、繰り返し試しやすくなります。
 
+## READMEをHTMLで読む方法
+
+ルートREADMEと各章のREADMEは、GitHub Actionsで単一HTMLに変換し、GitHub Pagesで公開します。リポジトリ設定のPages Sourceは`GitHub Actions`を選んでください。
+
+ローカルでHTMLを生成する場合:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 scripts/build_readme_html.py
+```
+
+生成されたHTMLは`_site/index.html`に出力されます。コードブロックはPython-MarkdownとPygmentsでシンタックスハイライトします。
+
 ## 学習の進め方
 
 1. 章フォルダの`README.md`を読む
