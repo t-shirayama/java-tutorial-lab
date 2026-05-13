@@ -2,6 +2,14 @@
 
 この章では、Java標準APIでHTTP通信と簡単なデータ処理を行う方法を学びます。あわせて、JSONのような実務でよく使う形式では、標準APIだけで頑張りすぎない判断も学びます。
 
+## この章でできるようになること
+
+この章を終えると、次のことができるようになります。
+
+- HttpClient、HttpRequest、HttpResponseの役割を説明できる
+- CSVやzipなど標準APIで扱える範囲を説明できる
+- JSONライブラリを使う判断基準を説明できる
+
 ## 22-1 HTTPクライアント処理
 
 `java.net.http.HttpClient`を使うと、HTTPリクエストを送れます。`HttpRequest`でリクエストを作り、`HttpResponse`でレスポンスを受け取ります。
