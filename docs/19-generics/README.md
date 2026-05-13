@@ -54,6 +54,28 @@ List<Number> scores = new ArrayList<>();
 addDefaultScores(scores); // Integerを書き込むので super
 ```
 
+メソッド定義で見ると、役割は次のようになります。
+
+```java
+static double sum(List<? extends Number> numbers) {
+    double total = 0;
+    for (Number number : numbers) {
+        total += number.doubleValue();
+    }
+    return total;
+}
+```
+
+```java
+static void addIntegers(List<? super Integer> numbers) {
+    numbers.add(1);
+    numbers.add(2);
+    numbers.add(3);
+}
+```
+
+`sum`は値を取り出して読むだけなので`extends`です。`addIntegers`は`Integer`を追加して受け取らせるので`super`です。
+
 ## 19-5 ジェネリック型の設計
 
 型パラメータは、利用者にとって意味がある範囲に絞ります。必要以上に複雑なジェネリック設計は避けます。
