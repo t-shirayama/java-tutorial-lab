@@ -143,6 +143,12 @@ docker compose exec -w /workspace/docs/09-method-references-and-lambdas/examples
 3. `addOne.andThen(doubleValue)`を`doubleValue.andThen(addOne)`へ変えて、計算順序の違いを確認してください。
 4. `System.out::println`をラムダ式`text -> System.out.println(text)`へ書き換え、同じ出力になることを確認してください。
 
+## 理解チェック
+
+1. ラムダ式の左側と右側は何を表しますか？
+2. `Predicate`、`Function`、`Consumer`の役割はどう違いますか？
+3. メソッド参照を使うと読みやすくなるのはどんな場合ですか？
+
 ## 参考資料
 
 公式:

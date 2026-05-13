@@ -108,6 +108,12 @@ docker compose exec -w /workspace/docs/19-generics/examples java mvn compile exe
 2. `sum(List.of(1, 2, 3))`や`sum(List.of(1.5, 2.5))`を追加し、`? extends Number`が複数の数値型を受け取れることを確認してください。
 3. `addDefaultScores`の引数を`List<? extends Integer>`に変えると、なぜ追加できなくなるのか考えてください。
 
+## 理解チェック
+
+1. `List<String>`とraw typeの違いは何ですか？
+2. `? extends Number`は読む側と書く側のどちらに向いていますか？
+3. PECSは何の略ですか？
+
 ## 参考資料
 
 公式:

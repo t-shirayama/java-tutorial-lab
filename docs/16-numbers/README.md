@@ -56,6 +56,12 @@ docker compose exec -w /workspace/docs/16-numbers/examples java mvn compile exec
 2. `BigDecimal.ONE.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP)`の桁数を`3`や`4`に変えてください。
 3. `RoundingMode.HALF_UP`を`DOWN`や`CEILING`に変え、丸め結果の違いを確認してください。
 
+## 理解チェック
+
+1. `0.1 + 0.2`で誤差が出ることがある理由は何ですか？
+2. BigDecimalを文字列から作る理由は何ですか？
+3. 金額計算で`double`を避ける理由は何ですか？
+
 ## 参考資料
 
 公式:

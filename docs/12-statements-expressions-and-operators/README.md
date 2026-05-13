@@ -127,6 +127,12 @@ docker compose exec -w /workspace/docs/12-statements-expressions-and-operators/e
 3. 文字列結合で`"progress: " + completed + total`と`"progress: " + (completed + total)`の違いを確認してください。
 4. `topic == "Java"`のような比較を`"Java".equals(topic)`へ直し、オブジェクト比較の基本を確認してください。
 
+## 理解チェック
+
+1. 文と式の違いは何ですか？
+2. `=`、`==`、`equals`はそれぞれ何に使いますか？
+3. 短絡評価はnullチェックでどのように役立ちますか？
+
 ## 参考資料
 
 公式:

@@ -48,6 +48,12 @@ docker compose exec -w /workspace/docs/22-web-technologies/examples java mvn com
 2. CSV文字列に列を追加し、`split(",")`だけでは複雑なCSVを扱いきれない場面を考えてください。
 3. `lesson`のタイトルに`Java "Basic"`のような引用符を入れ、手作りJSONの危うさを確認してください。
 
+## 理解チェック
+
+1. HttpClientは何をするAPIですか？
+2. HTTPステータスコードは何を表しますか？
+3. 実務でJSONライブラリを検討する理由は何ですか？
+
 ## 参考資料
 
 公式:

@@ -48,6 +48,12 @@ docker compose exec -w /workspace/docs/15-characters-and-text/examples java mvn 
 2. `text.codePoints()`の出力から、各文字が`U+`で始まるコードポイントとして表示されることを確認してください。
 3. テキストブロックのインデントを変え、出力されるJSON風文字列の余白がどう変わるか見てください。
 
+## 理解チェック
+
+1. Javaの`char`は何を表しますか？
+2. コードポイントとUTF-16コード単位はどう違いますか？
+3. テキストブロックはどんな文字列に向いていますか？
+
 ## 参考資料
 
 公式:

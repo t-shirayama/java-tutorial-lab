@@ -173,6 +173,12 @@ docker compose exec -w /workspace/docs/10-streams/examples java mvn compile exec
 3. `average`の出力を追加し、平均時間がどう表示されるか確認してください。
 4. 条件に合う要素がない`findFirst`を作り、`orElse("なし")`が使われることを確認してください。
 
+## 理解チェック
+
+1. `filter`、`map`、`toList`はそれぞれ何をしますか？
+2. Streamは元のListを直接書き換えますか？
+3. `Optional.get()`を安易に使うと何が問題ですか？
+
 ## 参考資料
 
 公式:

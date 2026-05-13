@@ -120,6 +120,12 @@ Level 3: `JavaProgrammingBasicsApp`の`main`に表示処理を全部戻した場
 - パッケージ宣言とフォルダ構成は対応させます。`package lab.programmingbasics;`のファイルは、`src/main/java/lab/programmingbasics/`に置きます。
 - コンパイルエラーが出たら、まず「ファイル名」「クラス名」「パッケージ名」の3つを確認すると原因を絞りやすいです。
 
+## 理解チェック
+
+1. `main`メソッドは何の入口ですか？
+2. Maven標準構成ではJavaコードをどこに置きますか？
+3. 読みやすい名前を付けると、どんな利点がありますか？
+
 ## 参考資料
 
 公式:

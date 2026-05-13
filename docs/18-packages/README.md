@@ -64,6 +64,12 @@ docker compose exec -w /workspace/docs/18-packages/examples java mvn compile exe
 2. `MessageFormatter`を別パッケージへ移動する場合、`package`宣言、フォルダ、`import`をそろえる必要があることを確認してください。
 3. `static import`をやめて`MessageFormatter.format("import")`に戻し、どちらが読みやすいか比べてください。
 
+## 理解チェック
+
+1. package宣言は何のために書きますか？
+2. importは依存関係そのものですか？
+3. パッケージプライベートはどんなときに使いますか？
+
 ## 参考資料
 
 公式:

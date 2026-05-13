@@ -72,6 +72,12 @@ docker compose exec -w /workspace/docs/20-threads/examples java mvn compile exec
 2. `Thread.sleep`の時間を変え、完了順が実行環境に依存することを確認してください。
 3. `future.get()`を呼ぶループを消すと、結果をどこで受け取る設計になるか考えてください。
 
+## 理解チェック
+
+1. 仮想スレッドはどんな処理に向いていますか？
+2. `Future#get`は何を待ちますか？
+3. CPUを使う重い計算は仮想スレッドで自動的に速くなりますか？
+
 ## 参考資料
 
 公式:

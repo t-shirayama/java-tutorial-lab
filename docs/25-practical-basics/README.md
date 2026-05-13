@@ -138,6 +138,12 @@ logger.log(System.Logger.Level.INFO, "処理を開始しました");
 
 `DateTimeFormatter`のパターンを変え、`2026年05月13日`のような表示を作ってください。
 
+## 理解チェック
+
+1. `null`に対してメソッドを呼ぶと何が起きますか？
+2. JUnitのテストでは何と何を比べますか？
+3. `Files.writeString`と`Files.readString`は何をしますか？
+
 ## 参考資料
 
 ### 公式

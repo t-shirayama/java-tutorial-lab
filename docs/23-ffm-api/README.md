@@ -58,6 +58,12 @@ docker compose exec -w /workspace/docs/23-ffm-api/examples java mvn compile exec
 2. `Class.forName("java.lang.foreign.MemorySegment")`の出力から、Java 21にFFM APIの型が存在することを確認してください。
 3. 公式ドキュメントのFFM API例を試す場合は、必ず`--enable-preview`をコンパイル時と実行時の両方へ付けてください。
 
+## 理解チェック
+
+1. FFM APIは何のためのAPIですか？
+2. Java 21でFFM APIを直接使うときの注意は何ですか？
+3. この章を発展編として扱う理由は何ですか？
+
 ## 参考資料
 
 公式:

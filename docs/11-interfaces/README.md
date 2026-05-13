@@ -88,6 +88,12 @@ docker compose exec -w /workspace/docs/11-interfaces/examples java mvn compile e
 3. `Formatter`ラムダ式を変えて、通知メッセージの形を変更してください。
 4. `Notifier`へ抽象メソッドを追加してみて、実装クラス側に修正が必要になることを確認してください。その後、元に戻してください。
 
+## 理解チェック
+
+1. インタフェースは何を表す約束ですか？
+2. 呼び出し側がインタフェースに依存すると何が嬉しいですか？
+3. `@FunctionalInterface`を付ける利点は何ですか？
+
 ## 参考資料
 
 公式:

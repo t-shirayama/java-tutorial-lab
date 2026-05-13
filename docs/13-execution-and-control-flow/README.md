@@ -171,6 +171,12 @@ docker compose exec -w /workspace/docs/13-execution-and-control-flow/examples ja
 3. `"skip"`という要素を追加し、`continue`でその要素だけ飛ばす処理を追加してください。
 4. `while`ループの回数を変え、条件が`false`になると止まることを確認してください。
 
+## 理解チェック
+
+1. `main`メソッドはいつ呼ばれますか？
+2. `for`、拡張for、`while`はどう使い分けますか？
+3. `break`と`continue`の違いは何ですか？
+
 ## 参考資料
 
 公式:
