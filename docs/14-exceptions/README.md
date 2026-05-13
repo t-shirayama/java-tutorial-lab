@@ -106,6 +106,16 @@ try (StudyResource resource = new StudyResource("file")) {
 
 例外メッセージには「何が」「どの値で」失敗したかを書きます。`"error"`だけでは調査できません。`"score must be 0..100: " + score`のように、原因へ近づける情報を含めます。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [ExceptionsApp.java](examples/src/main/java/lab/exceptions/ExceptionsApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ```bash

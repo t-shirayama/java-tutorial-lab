@@ -92,6 +92,16 @@ boolean passed = score >= 70;
 
 文字列を`boolean`に変換したい場合は、`Boolean.parseBoolean`を使えます。`"true"`は`true`になり、それ以外の多くの文字列は`false`になります。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [IntegersAndBooleansApp.java](examples/src/main/java/lab/integersandbooleans/IntegersAndBooleansApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:

@@ -54,6 +54,16 @@ Mavenプロジェクトでも、コードの置き場所には標準的な形が
 - `StudyStep`: 学習ステップを表すクラス
 - `StudyPlanPrinter`: 学習計画を表示するクラス
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [JavaProgrammingBasicsApp.java](examples/src/main/java/lab/programmingbasics/JavaProgrammingBasicsApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:
@@ -108,7 +118,7 @@ Javaプログラミング初歩
 - `main`メソッドを短くすると、プログラムの入口が追いやすくなる
 - `src/main/java` の下にパッケージ構造をそろえると、ファイルを探しやすい
 
-## 演習
+## 発展ハンズオン
 
 Level 1: `StudyStep`の説明文を1つ変更し、出力の該当行だけが変わることを確認してください。データを変えるだけなら、表示処理のコードを直さなくてもよいことを観察します。
 
@@ -121,6 +131,12 @@ Level 3: `JavaProgrammingBasicsApp`の`main`に表示処理を全部戻した場
 - クラス名はファイル名と合わせます。`public class StudyStep`なら、ファイル名は`StudyStep.java`です。
 - パッケージ宣言とフォルダ構成は対応させます。`package lab.programmingbasics;`のファイルは、`src/main/java/lab/programmingbasics/`に置きます。
 - コンパイルエラーが出たら、まず「ファイル名」「クラス名」「パッケージ名」の3つを確認すると原因を絞りやすいです。
+
+## よくあるエラー
+
+### mainClassのパッケージ名を間違える
+
+`pom.xml`の`mainClass`と、Javaファイル先頭の`package`宣言、フォルダ構成が一致しているか確認します。
 
 ## 練習問題
 

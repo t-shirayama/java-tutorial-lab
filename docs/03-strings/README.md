@@ -2,6 +2,8 @@
 
 この章では、Javaで文字列を扱う基本を学びます。文字列は画面表示、入力値、ログ、ファイル名、URLなど、ほとんどのプログラムで使います。Javaでは文字列を表す`String`がとてもよく使われるため、最初のうちに「変更できない文字列」と「組み立てるための文字列」を分けて理解しておくと、後の章が読みやすくなります。
 
+変数や型の読み方に不安がある場合は、先に[4章 変数とオブジェクト](../04-variables-and-objects/)と[12章 文、式、演算子](../12-statements-expressions-and-operators/)を読むと理解しやすくなります。
+
 ## この章でできるようになること
 
 この章を終えると、次のことができるようになります。
@@ -85,6 +87,31 @@ public String toString() {
 
 ただし、`toString`は人が読んで理解しやすい表示を作るためのものです。プログラムの判定に使う正式なデータ形式として扱う場合は、別の設計が必要になります。
 
+## この章の全体コード例
+
+断片的なコードを組み合わせると、次のような1つのクラスになります。
+
+```java
+public class StringMiniApp {
+    public static void main(String[] args) {
+        String rawTitle = "  Java 21  ";
+        String title = rawTitle.strip();
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("学習テーマ: ");
+        builder.append(title);
+
+        boolean same = "Java 21".equals(title);
+
+        System.out.println(builder);
+        System.out.println("文字数: " + title.length());
+        System.out.println("一致: " + same);
+    }
+}
+```
+
+`rawTitle`と`title`は文字列を参照する変数です。`title.length()`は、`title`が参照している`String`オブジェクトの`length`メソッドを呼び出しています。
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:
@@ -141,7 +168,7 @@ StudyTopic{name='文字列', level='基本'}
 - 文字列を組み立てる処理は、`StringBuilder`を使うと意図が読みやすい
 - 内容比較は`equals`、表示用の文字列化は`toString`と役割が違う
 
-## 演習
+## 発展ハンズオン
 
 Level 1: `rawText`を`"  Java\n"`のように変えて、`strip`が改行や空白をどう扱うか確認してください。表示が見づらい場合は、前後に`[`と`]`を付けて出力すると違いが分かりやすくなります。
 

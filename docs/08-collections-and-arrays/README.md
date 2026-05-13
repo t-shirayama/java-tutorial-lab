@@ -132,6 +132,16 @@ for (String command : commands) {
 
 配列は長さを後から変えられません。要素数が増減するデータには、まず`List`を検討すると扱いやすくなります。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [CollectionsAndArraysApp.java](examples/src/main/java/lab/collectionsandarrays/CollectionsAndArraysApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:
@@ -186,7 +196,7 @@ command: exec:java
 - `ArrayDeque`は取り出し方でキューにもスタックにもなる
 - 配列は長さが固定されている
 
-## 演習
+## 発展ハンズオン
 
 Level 1: `tasks.add("復習する");`を追加して、`List`の出力順を確認してください。`tasks.size()`も表示して、件数が変わることを見ます。
 

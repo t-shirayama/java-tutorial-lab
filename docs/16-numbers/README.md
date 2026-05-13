@@ -36,6 +36,16 @@
 
 割り切れない割り算では、桁数と丸め方を指定します。サンプルの`RoundingMode.HALF_UP`は、一般的な四捨五入に近い丸め方です。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [NumbersApp.java](examples/src/main/java/lab/numbers/NumbersApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ```bash
@@ -62,6 +72,12 @@ BigDecimal: 0.3
 1. `new BigDecimal("0.1")`、`new BigDecimal(0.1)`、`BigDecimal.valueOf(0.1)`の出力を比べてください。
 2. `BigDecimal.ONE.divide(new BigDecimal("3"), 2, RoundingMode.HALF_UP)`の桁数を`3`や`4`に変えてください。
 3. `RoundingMode.HALF_UP`を`DOWN`や`CEILING`に変え、丸め結果の違いを確認してください。
+
+## よくあるエラー
+
+### BigDecimalをdoubleから作ってしまう
+
+`new BigDecimal(0.1)`のように書くと、`double`の誤差を含んだ値から作られます。金額のような値は文字列から作ります。
 
 ## 練習問題
 

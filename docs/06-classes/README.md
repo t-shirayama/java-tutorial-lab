@@ -63,6 +63,8 @@ private int pageCount;
 
 `private`にすると、そのフィールドをクラスの外から直接触れなくなります。外から使ってよい操作だけをメソッドとして公開すると、クラスの使い方を整理しやすくなります。
 
+もし`pageCount`を`public`にすると、外側から`book.pageCount = -100;`のような不正な値を直接入れられてしまいます。`private`にして、`addPages`のようなメソッド側で値を検査すると、壊れた状態のオブジェクトを作りにくくなります。
+
 ## 6-5 メソッド
 
 メソッドは、クラスが持つ処理です。
@@ -128,6 +130,38 @@ public class ReadingGoal {
 
 この章のサンプルでは、変更できる`Book`と、変更しない`ReadingGoal`を分けています。どちらが常に正しいという話ではなく、目的に合わせて選ぶことが大切です。
 
+## この章の全体コード例
+
+フィールド、コンストラクタ、メソッド、`private`を組み合わせると、次のような小さなクラスになります。
+
+```java
+public class Book {
+    private final String title;
+    private int pageCount;
+
+    public Book(String title, int pageCount) {
+        if (pageCount <= 0) {
+            throw new IllegalArgumentException("pageCount must be positive");
+        }
+        this.title = title;
+        this.pageCount = pageCount;
+    }
+
+    public void addPages(int pages) {
+        if (pages <= 0) {
+            throw new IllegalArgumentException("pages must be positive");
+        }
+        pageCount += pages;
+    }
+
+    public String summary() {
+        return title + " / " + pageCount + "ページ";
+    }
+}
+```
+
+外から直接`pageCount`を変更できないため、ページ数の検査を`Book`クラスの中に集められます。これが`private`フィールドを使う大きな理由です。
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:
@@ -179,7 +213,7 @@ ReadingGoal{title='Java基礎を読む', targetPages=120}
 - `static`フィールドはクラス全体で共有される
 - `final`フィールドは、作成後に値を差し替えない設計に役立つ
 
-## 演習
+## 発展ハンズオン
 
 Level 1: `Book`に`isLongBook`メソッドを追加し、ページ数が300以上なら`true`を返すようにしてください。`ClassesApp`から呼び出して結果を表示します。
 

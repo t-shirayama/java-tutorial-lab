@@ -85,6 +85,16 @@ public sealed interface LearningMaterial permits BookMaterial, VideoMaterial {
 
 `sealed`を使うと、あとから知らない種類が勝手に増えないことをコードで表せます。データの種類を明確にしたい場面で便利です。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [DataApp.java](examples/src/main/java/lab/data/DataApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ローカルにJavaとMavenを入れている場合:
@@ -137,7 +147,7 @@ label: 読書中
 - `enum`は決まった候補を型として表せる
 - `sealed`はデータの種類を制限できる
 
-## 演習
+## 発展ハンズオン
 
 Level 1: `Article`をもう1つ作り、`article.equals(otherArticle)`の結果を表示してください。`record`では同じコンポーネント値を持つものが等しいと判定されることを確認します。
 

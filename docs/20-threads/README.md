@@ -54,6 +54,16 @@ try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
 スレッドを止めたい場合は、いきなり強制終了するのではなく、割り込みを使って「止まってほしい」と伝える考え方があります。割り込みは発展的な話題ですが、`InterruptedException`を握りつぶさないことだけ先に覚えておくと安全です。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [ThreadsApp.java](examples/src/main/java/lab/threads/ThreadsApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ```bash

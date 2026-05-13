@@ -94,11 +94,36 @@ def render_page(page: ReadmePage, pages: list[ReadmePage]) -> str:
         },
         output_format="html5",
     )
+    pager = render_page_switcher(pages, page)
     return f"""
 <article class="readme-section">
   <div class="source-path">{source_note}</div>
   {content}
+  {pager}
 </article>
+"""
+
+
+def render_page_switcher(pages: list[ReadmePage], current_page: ReadmePage) -> str:
+    index = pages.index(current_page)
+    previous_page = pages[index - 1] if index > 0 else None
+    next_page = pages[index + 1] if index + 1 < len(pages) else None
+
+    previous_link = (
+        f'<a class="page-switcher-link previous" href="{page_href(current_page, previous_page)}">'
+        f'<span>前へ</span><strong>{html.escape(previous_page.title)}</strong></a>'
+        if previous_page else '<span></span>'
+    )
+    next_link = (
+        f'<a class="page-switcher-link next" href="{page_href(current_page, next_page)}">'
+        f'<span>次へ</span><strong>{html.escape(next_page.title)}</strong></a>'
+        if next_page else '<span></span>'
+    )
+    return f"""
+<nav class="page-switcher" aria-label="前後の章">
+  {previous_link}
+  {next_link}
+</nav>
 """
 
 
@@ -150,6 +175,9 @@ def render_html(pages: list[ReadmePage], current_page: ReadmePage) -> str:
 {base_css()}
 {pygments_css}
   </style>
+  <script>
+{copy_button_script()}
+  </script>
 </head>
 <body>
   <div class="layout">
@@ -163,6 +191,35 @@ def render_html(pages: list[ReadmePage], current_page: ReadmePage) -> str:
   </div>
 </body>
 </html>
+"""
+
+
+def copy_button_script() -> str:
+    return """
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("pre").forEach((block) => {
+    if (block.closest(".codehilite")) {
+      block = block.closest(".codehilite");
+    }
+    if (block.dataset.copyReady === "true") {
+      return;
+    }
+    block.dataset.copyReady = "true";
+    const button = document.createElement("button");
+    button.className = "copy-code-button";
+    button.type = "button";
+    button.textContent = "コピー";
+    button.addEventListener("click", async () => {
+      const code = block.querySelector("code") || block.querySelector("pre") || block;
+      await navigator.clipboard.writeText(code.innerText);
+      button.textContent = "コピー済み";
+      setTimeout(() => {
+        button.textContent = "コピー";
+      }, 1400);
+    });
+    block.appendChild(button);
+  });
+});
 """
 
 
@@ -327,6 +384,7 @@ pre code {
 
 pre,
 .codehilite {
+  position: relative;
   max-width: 100%;
   overflow-x: auto;
   background: var(--code-bg);
@@ -350,6 +408,29 @@ pre,
   margin: 0;
   border: 0;
   box-shadow: none;
+}
+
+.copy-code-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 5px 10px;
+  color: var(--accent-deep);
+  background: rgba(255, 253, 247, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  box-shadow: 0 8px 18px var(--shadow);
+}
+
+.copy-code-button:hover {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 blockquote {
@@ -427,6 +508,51 @@ td:last-child {
   min-width: 24rem;
 }
 
+.page-switcher {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.page-switcher-link {
+  display: block;
+  min-height: 88px;
+  padding: 16px 18px;
+  color: var(--ink);
+  text-decoration: none;
+  background: rgba(255, 253, 247, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px var(--shadow);
+}
+
+.page-switcher-link:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.page-switcher-link span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.page-switcher-link strong {
+  display: block;
+  color: var(--accent-deep);
+  line-height: 1.5;
+}
+
+.page-switcher-link.next {
+  text-align: right;
+}
+
 @media (max-width: 860px) {
   .layout {
     display: block;
@@ -456,6 +582,14 @@ td:last-child {
 
   h1 {
     font-size: 1.8rem;
+  }
+
+  .page-switcher {
+    grid-template-columns: 1fr;
+  }
+
+  .page-switcher-link.next {
+    text-align: left;
   }
 }
 

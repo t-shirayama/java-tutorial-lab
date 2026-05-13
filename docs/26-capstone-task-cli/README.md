@@ -59,6 +59,16 @@ tasks.stream()
 
 ファイル保存や読み込みでは`IOException`が起きる可能性があります。サンプルでは`System.Logger`で処理の開始と終了を記録します。
 
+## この章の全体コード例
+
+本文中の短いコード例は、実行できる [TaskCliApp.java](examples/src/main/java/lab/capstone/TaskCliApp.java) にまとまっています。まずこのファイルを上から読み、次に本文の各節へ戻ると、断片的な説明が1つの流れとしてつながります。
+
+読むときの観点:
+
+- `main`メソッドが、どの順番でサンプル処理を呼び出しているか
+- 章で学ぶ型やメソッドが、実際のクラスのどこで使われているか
+- 値を変えたときに、どの出力が変わるか
+
 ## 実行して確認する
 
 ```bash
@@ -101,6 +111,12 @@ docker compose exec -w /workspace/docs/26-capstone-task-cli/examples java mvn te
 2. `TaskService.search`のキーワードを変えて、検索結果を確認する
 3. `target/tasks.txt`に保存された内容を確認する
 4. `mvn test`で検索と未完了抽出のテストを実行する
+
+## よくあるエラー
+
+### 保存形式を変えたのに読み込み処理を直さない
+
+ファイル保存の形式と読み込みのパース処理はセットです。片方だけ変えると読み込み時に失敗します。
 
 ## 練習問題
 
