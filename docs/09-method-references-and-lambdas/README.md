@@ -8,6 +8,22 @@
 
 メソッド参照は、既存メソッドを処理として渡す書き方です。`System.out::println`のように書きます。
 
+ラムダ式やメソッド参照は、まず`for`文と対応づけて読むと分かりやすくなります。次の3つは、どれも名前を1つずつ表示します。
+
+```java
+List<String> names = List.of("Java", "Maven", "Docker");
+
+for (String name : names) {
+    System.out.println(name);
+}
+
+names.forEach(name -> System.out.println(name));
+
+names.forEach(System.out::println);
+```
+
+最初の`for`文は「1件ずつ取り出して表示する」と明示的に書いています。ラムダ式は「取り出した1件をどう処理するか」だけを書きます。メソッド参照は、呼び出す既存メソッド名だけで意味が伝わる場合にさらに短くできます。
+
 次の2つは、どちらも「文字列を大文字へ変換する処理」を表します。
 
 ```java
@@ -21,7 +37,7 @@ String::toUpperCase
 
 関数型インタフェースは、抽象メソッドを1つだけ持つインタフェースです。`Predicate`、`Function`、`Consumer`などがあります。
 
-代表的な標準関数型インタフェースは次の通りです。
+代表的な標準関数型インタフェースは次の通りです。迷ったら「条件」「変換」「消費」「生成」のどれかで考えます。
 
 | 型 | 役割 | 例 |
 | --- | --- | --- |
@@ -29,6 +45,15 @@ String::toUpperCase
 | `Function<T, R>` | `T`を受け取り`R`へ変換する | 文字列から長さを作る |
 | `Consumer<T>` | `T`を受け取り戻り値なしで処理する | 画面へ出力する |
 | `Supplier<T>` | 引数なしで`T`を作る | 初期値を作る |
+
+```java
+Predicate<String> longName = name -> name.length() >= 5;
+Function<String, Integer> length = name -> name.length();
+Consumer<String> printer = name -> System.out.println(name);
+Supplier<String> defaultName = () -> "Java";
+```
+
+`Predicate`は`filter`、`Function`は`map`、`Consumer`は`forEach`でよく使います。Streamを読む前にこの対応を覚えておくと、10章が急に読みやすくなります。
 
 ## 9-3 ラムダ式
 
@@ -48,6 +73,15 @@ Function<String, String> label = name -> {
     return "学習: " + upper;
 };
 ```
+
+ラムダ式の中で外側の変数を書き換えようとすると読みにくくなります。最初は「受け取った値から結果を作る」小さな処理に留めると安全です。
+
+```java
+int minLength = 5;
+Predicate<String> enoughLength = name -> name.length() >= minLength;
+```
+
+このように外側の変数を読むことはできます。ただし、ラムダ式の後で`minLength`を書き換えるような使い方はできません。Javaはラムダ式が参照するローカル変数に、実質的に変更されないことを求めます。
 
 ## 9-4 基本型のための標準関数型インタフェース
 

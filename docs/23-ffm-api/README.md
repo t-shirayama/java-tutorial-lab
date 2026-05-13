@@ -1,8 +1,10 @@
 # 23章 FFM API
 
-この章では、Foreign Function & Memory API（FFM API）の概要を学びます。Java 21ではFFM APIはプレビュー機能です。実際に`java.lang.foreign`の型を直接使うコードを書くには、コンパイル時と実行時に`--enable-preview`が必要です。
+この章は発展編です。Foreign Function & Memory API（FFM API）の概要を学びます。Java 21ではFFM APIはプレビュー機能です。実際に`java.lang.foreign`の型を直接使うコードを書くには、コンパイル時と実行時に`--enable-preview`が必要です。
 
 この章のMavenサンプルは通常の`mvn compile exec:java`で動くように、APIの存在確認と外部メモリに近い概念の観察に絞ります。FFMそのものを本格的に使う章ではなく、「何のためのAPIで、なぜ慎重に扱うか」を理解する入口です。
+
+通常のJava基礎、Webアプリケーション、業務アプリケーションを学ぶ段階では、先に1〜22章、24〜25章を固めてから戻ってくるくらいで十分です。
 
 ## 23-1 FFM API（Foreign Function & Memory API）
 

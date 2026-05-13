@@ -8,9 +8,20 @@
 
 マルチスレッドは、複数の処理を並行して実行する仕組みです。たとえば、複数のHTTPリクエスト待ちやファイル処理を同時に進めたいときに役立ちます。
 
+ただし、スレッドを使うと実行順序は固定ではなくなります。
+
+```java
+Thread.startVirtualThread(() -> System.out.println("A"));
+Thread.startVirtualThread(() -> System.out.println("B"));
+```
+
+この出力は常に`A`、`B`の順になるとは限りません。スレッドを使うコードでは、「順番に依存していないか」「共有データを書き換えていないか」を先に確認します。
+
 ## 20-2 スレッド生成
 
 `Thread.startVirtualThread`や`Thread.ofPlatform`でスレッドを作れます。ただし、実務ではスレッドを1つずつ直接管理するより、`ExecutorService`へタスクを渡す形が読みやすくなります。
+
+`Thread`を直接作るコードは仕組みの理解には役立ちますが、タスク数が増えると待ち合わせや例外処理が散らばります。`ExecutorService`を使うと「タスクを渡す」「結果を受け取る」「最後に閉じる」という形にまとめやすくなります。
 
 ## 20-3 仮想スレッドとプラットフォームスレッドの比較
 
@@ -23,6 +34,15 @@
 `Executors.newVirtualThreadPerTaskExecutor()`は、タスクごとに仮想スレッドを使う`ExecutorService`を作ります。`submit`すると`Future`が返り、`future.get()`で結果を受け取れます。
 
 サンプルでは、5つのタスクを仮想スレッドで実行し、結果を`Future`から取り出します。
+
+```java
+try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    Future<String> future = executor.submit(() -> "done");
+    System.out.println(future.get());
+}
+```
+
+`Future#get`は結果が出るまで待ちます。待ち時間のある処理をたくさん扱う場合は仮想スレッドが便利ですが、CPUを使い切る重い計算を無制限に速くするものではありません。
 
 ## 実行して確認する
 

@@ -8,6 +8,30 @@
 
 ストリームは、データの集まりに対して処理の流れを組み立てるAPIです。
 
+Streamは`for`文の代わりに何でも短くする道具ではありません。「条件で残す」「形を変える」「最後に集める」という流れがはっきりしているときに読みやすくなります。
+
+まず`for`で書くと、次のようになります。
+
+```java
+List<String> result = new ArrayList<>();
+for (String name : names) {
+    if (name.length() >= 3) {
+        result.add(name.toUpperCase());
+    }
+}
+```
+
+同じ処理をStreamで書くと、処理の流れを左から右へ読めます。
+
+```java
+List<String> result = names.stream()
+        .filter(name -> name.length() >= 3)
+        .map(String::toUpperCase)
+        .toList();
+```
+
+`filter`は残す条件、`map`は変換、`toList`は結果の取り出しです。Streamの読み方で迷ったら、いったん`for`文に戻して考えると理解しやすくなります。
+
 例えば「30分以上のレッスン名だけを取り出す」は、次のように読めます。
 
 ```java
@@ -42,6 +66,17 @@ lessons.stream()
         .filter(lesson -> lesson.minutes() >= 30); // まだ結果は使えない
 ```
 
+よく使う中間処理と終端処理は、役割で分けると覚えやすいです。
+
+| メソッド | 種類 | 役割 |
+| --- | --- | --- |
+| `filter` | 中間処理 | 条件に合う要素だけ残す |
+| `map` | 中間処理 | 要素を別の形へ変換する |
+| `sorted` | 中間処理 | 並び替えた流れを作る |
+| `forEach` | 終端処理 | 各要素に対して処理を実行する |
+| `toList` | 終端処理 | 結果をリストとして取り出す |
+| `count` | 終端処理 | 要素数を数える |
+
 ## 10-4 ストリームの終端処理
 
 `toList`、`forEach`、`count`、`sum`などが終端処理です。
@@ -65,6 +100,16 @@ lessons.stream()
 `Optional`は、値があるかもしれないし、ないかもしれないことを表す型です。
 
 `findFirst`の結果は、条件に合う要素が存在しない可能性があるため`Optional`になります。値がない場合の動きを`orElse`で明示すると、`null`確認より読みやすくなります。
+
+```java
+String title = lessons.stream()
+        .filter(lesson -> lesson.minutes() >= 60)
+        .map(Lesson::title)
+        .findFirst()
+        .orElse("該当なし");
+```
+
+`Optional.get()`は、値がないと`NoSuchElementException`になります。学習中でも、まずは`orElse`、`orElseThrow`、`ifPresent`のように「値がない場合」を明示する書き方を優先してください。
 
 ## 10-8 ストリーム処理の組み立て方
 

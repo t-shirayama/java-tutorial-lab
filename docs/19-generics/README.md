@@ -8,6 +8,24 @@
 
 ジェネリック型は、型を後から指定できるクラスやインタフェースです。サンプルの`Box<T>`は、`Box<String>`にも`Box<Integer>`にもできます。
 
+ジェネリクスは難しい構文ではなく、間違った型を入れないための安全装置です。型を指定しない生の`List`を使うと、文字列と数値を同じリストへ入れられてしまいます。
+
+```java
+List rawList = new ArrayList();
+rawList.add("Java");
+rawList.add(123); // コンパイルは通りやすいが、後で取り出すと危ない
+```
+
+型を指定すれば、間違いを実行前に見つけられます。
+
+```java
+List<String> names = new ArrayList<>();
+names.add("Java");
+// names.add(123); // コンパイルエラーになるので安全
+```
+
+初学者のうちは、`List`だけでなく必ず`List<String>`のように要素の型まで書く習慣を付けましょう。
+
 ## 19-2 ジェネリック型宣言
 
 `class Box<T>`のように、型パラメータを宣言します。`T`は慣習的に「型」を表す名前です。
@@ -21,6 +39,15 @@
 `? extends Number`は「NumberまたはNumberの子型のリスト」を受け取る書き方です。値を読む側、たとえば合計を計算する`sum(List<? extends Number>)`に向いています。
 
 `? super Integer`は「Integerを入れられる親側の型」を受け取る書き方です。値を書き込む側、たとえば`List<Number>`へ`Integer`を追加する処理に向いています。
+
+覚え方は「読むなら`extends`、書くなら`super`」です。英語圏ではPECS（Producer Extends, Consumer Super）とも呼ばれます。
+
+```java
+double total = sum(List.of(10, 20, 30)); // 読むだけなので extends
+
+List<Number> scores = new ArrayList<>();
+addDefaultScores(scores); // Integerを書き込むので super
+```
 
 ## 19-5 ジェネリック型の設計
 
