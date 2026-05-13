@@ -170,9 +170,62 @@ function extractSummary(markdownText: string): string {
   return paragraph?.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/`/g, "") ?? "";
 }
 
-function estimateMinutes(sections: Section[]): number {
-  const h2Count = Math.max(1, sections.filter((section) => section.level === 2).length);
-  return Math.min(90, Math.max(30, h2Count * 8));
+function extractHeadingBlock(markdownText: string, heading: string): string {
+  const lines = markdownText.split(/\r?\n/);
+  const headingIndex = lines.findIndex((line) => line.trim() === `## ${heading}`);
+  if (headingIndex === -1) {
+    return "";
+  }
+
+  const block: string[] = [];
+  for (const line of lines.slice(headingIndex + 1)) {
+    if (line.startsWith("## ")) {
+      break;
+    }
+    block.push(line);
+  }
+
+  return block.join("\n");
+}
+
+function countChecklistItems(markdownBlock: string): number {
+  return Array.from(markdownBlock.matchAll(/^(?:[-*]|\d+\.)\s+\S/gm)).length;
+}
+
+function estimateMinutes(markdownText: string, sections: Section[], chapterNumber: number): number {
+  const codeBlocks = Array.from(markdownText.matchAll(/```(\w+)?\r?\n([\s\S]*?)```/g));
+  const textWithoutCode = markdownText.replace(/```[\s\S]*?```/g, "");
+  const textCharacters = textWithoutCode
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[#>*_`|\-\[\]():]/g, "")
+    .replace(/\s/g, "").length;
+
+  const codeLineCount = codeBlocks.reduce((total, block) => {
+    const language = block[1] ?? "";
+    if (codeBlockKind(language) !== "source") {
+      return total;
+    }
+    const lines = block[2].split(/\r?\n/).filter((line) => line.trim()).length;
+    return total + lines;
+  }, 0);
+  const commandBlockCount = codeBlocks.filter((block) => codeBlockKind(block[1] ?? "") === "command").length;
+  const h2Count = sections.filter((section) => section.level === 2).length;
+  const h3Count = sections.filter((section) => section.level === 3).length;
+  const handsOnCount = countChecklistItems(extractHeadingBlock(markdownText, "ハンズオン"));
+  const exerciseCount =
+    countChecklistItems(extractHeadingBlock(markdownText, "練習問題")) +
+    Array.from(extractHeadingBlock(markdownText, "練習問題").matchAll(/^###\s+Level\s+\d+/gm)).length;
+  const checkCount = countChecklistItems(extractHeadingBlock(markdownText, "理解チェック"));
+
+  const readingMinutes = textCharacters / 450;
+  const conceptMinutes = h2Count * 0.9 + h3Count * 0.4;
+  const codeMinutes = codeBlocks.length + codeLineCount * 0.45;
+  const commandMinutes = commandBlockCount * 1.5;
+  const practiceMinutes = handsOnCount * 2.5 + exerciseCount * 3.5 + checkCount * 1.5;
+  const complexityMultiplier = chapterNumber <= 7 ? 1 : chapterNumber <= 17 ? 1.06 : chapterNumber <= 23 ? 1.12 : 1.15;
+  const estimated = (readingMinutes + conceptMinutes + codeMinutes + commandMinutes + practiceMinutes) * complexityMultiplier;
+
+  return Math.min(120, Math.max(20, Math.round(estimated / 5) * 5));
 }
 
 function difficultyFor(number: number): string {
@@ -227,7 +280,7 @@ function chapterFrom(path: string, markdownText: string): Chapter | Glossary | n
     sections,
     goals,
     learningItems,
-    estimatedMinutes: estimateMinutes(sections),
+    estimatedMinutes: estimateMinutes(markdownText, sections, number),
     difficulty: difficultyFor(number)
   };
 }

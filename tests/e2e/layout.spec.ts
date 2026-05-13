@@ -72,6 +72,43 @@ test.describe("tutorial layout", () => {
     expect(metrics.sidebarRight).toBeLessThanOrEqual(metrics.mainLeft + 1);
   });
 
+  test("sidebar shows chapter sections immediately below the active chapter", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
+
+    await page.goto("/#/chapters/21-numbers");
+    await expect(page.getByRole("heading", { name: "21章 数値" })).toBeVisible();
+
+    const positions = await page.evaluate(() => {
+      const activeChapter = document.querySelector(".chapter-link.active");
+      const sectionList = document.querySelector(".section-list");
+      const nextChapter = Array.from(document.querySelectorAll(".chapter-link")).find((link) =>
+        link.textContent?.includes("22章")
+      );
+
+      if (!activeChapter || !sectionList || !nextChapter) {
+        throw new Error("Missing sidebar elements for active chapter assertion");
+      }
+
+      const activeRect = activeChapter.getBoundingClientRect();
+      const sectionRect = sectionList.getBoundingClientRect();
+      const nextRect = nextChapter.getBoundingClientRect();
+
+      return {
+        activeBottom: activeRect.bottom,
+        sectionTop: sectionRect.top,
+        sectionBottom: sectionRect.bottom,
+        nextTop: nextRect.top
+      };
+    });
+
+    expect(positions.sectionTop, "section list should start just under the active chapter").toBeGreaterThanOrEqual(
+      positions.activeBottom - 1
+    );
+    expect(positions.sectionBottom, "section list should appear before the next chapter").toBeLessThanOrEqual(
+      positions.nextTop + 1
+    );
+  });
+
   test("code blocks render as dark editor panels", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
 

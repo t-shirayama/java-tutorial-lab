@@ -264,32 +264,33 @@ function Sidebar({
             const active = activeChapter?.slug === chapter.slug;
             const completed = completedSet.has(chapter.slug);
             return (
-              <a
-                key={chapter.slug}
-                href={chapterHref(chapter.slug)}
-                className={`chapter-link ${active ? "active" : ""}`}
-                onClick={close}
-              >
-                <span className="chapter-icon">{completed ? <CheckCircle2 size={15} /> : <FileText size={15} />}</span>
-                <span>{chapter.number}章 {chapter.shortTitle}</span>
-                {active ? <span className="active-dot" /> : null}
-              </a>
+              <React.Fragment key={chapter.slug}>
+                <a
+                  href={chapterHref(chapter.slug)}
+                  className={`chapter-link ${active ? "active" : ""}`}
+                  onClick={close}
+                >
+                  <span className="chapter-icon">{completed ? <CheckCircle2 size={15} /> : <FileText size={15} />}</span>
+                  <span>{chapter.number}章 {chapter.shortTitle}</span>
+                  {active ? <span className="active-dot" /> : null}
+                </a>
+                {active ? (
+                  <div className="section-list">
+                    {chapter.sections
+                      .filter((section) => /^\d+-\d+/.test(section.title))
+                      .slice(0, 8)
+                      .map((section) => (
+                        <span key={section.id} className="section-link">
+                          <Circle size={10} />
+                          {section.title}
+                        </span>
+                      ))}
+                  </div>
+                ) : null}
+              </React.Fragment>
             );
           })}
         </nav>
-        {activeChapter ? (
-          <div className="section-list">
-            {activeChapter.sections
-              .filter((section) => /^\d+-\d+/.test(section.title))
-              .slice(0, 8)
-              .map((section) => (
-                <span key={section.id} className="section-link">
-                  <Circle size={10} />
-                  {section.title}
-                </span>
-              ))}
-          </div>
-        ) : null}
         <a className="about-link" href={glossaryHref()} onClick={close}>
           <BookOpen size={17} />
           用語集
