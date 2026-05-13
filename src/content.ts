@@ -50,15 +50,24 @@ export type HomeContent = {
   html: string;
 };
 
-const markdown = new MarkdownIt({
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+const markdown: MarkdownIt = new MarkdownIt({
   html: false,
   linkify: true,
   typographer: true,
-  highlight(code, language) {
+  highlight(code, language): string {
     if (language && hljs.getLanguage(language)) {
       return hljs.highlight(code, { language }).value;
     }
-    return markdown.utils.escapeHtml(code);
+    return escapeHtml(code);
   }
 });
 
