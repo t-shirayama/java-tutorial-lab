@@ -42,6 +42,11 @@ names.add("Java");
 
 覚え方は「読むなら`extends`、書くなら`super`」です。英語圏ではPECS（Producer Extends, Consumer Super）とも呼ばれます。
 
+| 書き方 | 覚え方 | できること |
+| --- | --- | --- |
+| `? extends Number` | Numberとして読む側 | 要素を取り出して計算する |
+| `? super Integer` | Integerを書き込む側 | Integerを追加する |
+
 ```java
 double total = sum(List.of(10, 20, 30)); // 読むだけなので extends
 

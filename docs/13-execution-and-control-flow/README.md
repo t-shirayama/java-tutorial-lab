@@ -68,6 +68,14 @@ String level = switch (score / 10) {
 | 拡張`for` | 配列やリストの全要素を順番に扱いたい |
 | `while` | 条件が成り立つ間だけ続けたい |
 
+`for`は「何回繰り返すか」がはっきりしているときに向いています。
+
+```java
+for (int i = 0; i < 3; i++) {
+    System.out.println("count: " + i);
+}
+```
+
 添字が必要ないなら拡張`for`から始めると安全です。
 
 ```java
@@ -78,11 +86,43 @@ for (String topic : topics) {
 
 添字を使う`for`では、境界条件に注意します。`i <= topics.length`では最後に存在しない位置へアクセスしてしまうため、`i < topics.length`にします。
 
+`while`は「条件が成り立つ間だけ続ける」処理に向いています。終了条件を書き忘れると無限ループになるため、ループ内で条件が変わるか確認します。
+
+```java
+int remaining = 3;
+while (remaining > 0) {
+    System.out.println("remaining: " + remaining);
+    remaining--;
+}
+```
+
 ## 13-6 ジャンプ
 
 `break`は繰り返しを抜け、`continue`は次の繰り返しへ進みます。
 
 `break`と`continue`は便利ですが、増えすぎると流れが追いにくくなります。まずは小さなループで動きを確認しましょう。
+
+`break`は、目的の値を見つけた時点でループを終えたいときに使います。
+
+```java
+for (String topic : topics) {
+    if ("stop".equals(topic)) {
+        break;
+    }
+    System.out.println(topic);
+}
+```
+
+`continue`は、今回の要素だけ処理を飛ばして、次の繰り返しへ進みたいときに使います。
+
+```java
+for (String topic : topics) {
+    if ("skip".equals(topic)) {
+        continue;
+    }
+    System.out.println(topic);
+}
+```
 
 ## 実行して確認する
 
