@@ -104,6 +104,14 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/19-generics/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+box: ...
+sum: ...
+PECS: ...
+```
+
 ## ハンズオン
 
 1. `Box<String>`を`Box<Integer>`に変え、入れられる値の型が変わることを確認してください。

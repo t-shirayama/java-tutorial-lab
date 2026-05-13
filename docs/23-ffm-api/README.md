@@ -52,6 +52,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/23-ffm-api/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+FFM package class: java.lang.foreign.Arena
+direct buffer: true
+```
+
 ## ハンズオン
 
 1. `ByteBuffer.allocateDirect`で確保するサイズや書き込む整数値を変え、JVMの通常ヒープ外に近いメモリを扱う感覚を確認してください。

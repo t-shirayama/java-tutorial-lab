@@ -58,6 +58,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/18-packages/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+formatted message: ...
+package: lab.packagesdemo
+```
+
 ## ハンズオン
 
 1. `MessageFormatter.packagePrivateFormat`が同じパッケージから呼べることを確認してください。

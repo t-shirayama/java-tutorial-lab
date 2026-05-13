@@ -120,6 +120,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/12-statements-expressions-and-operators/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+remaining: ...
+canStart: true
+```
+
 ## ハンズオン
 
 1. `completed`と`total`を変えて、`remaining`と`canStart`の変化を確認してください。

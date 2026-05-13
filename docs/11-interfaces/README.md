@@ -81,6 +81,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/11-interfaces/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+ConsoleNotifier: 学習を開始します
+MemoryNotifier: ...
+```
+
 ## ハンズオン
 
 1. `ConsoleNotifier`とは別の実装クラスを追加し、同じ`Notifier`型として使えることを確認してください。

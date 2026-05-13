@@ -168,6 +168,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/10-streams/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+30分以上のレッスン: [Stream, Optional]
+合計時間: ...
+```
+
 ## ハンズオン
 
 1. `filter`の条件を`lesson.minutes() > 20`へ変えて、抽出されるレッスンを確認してください。

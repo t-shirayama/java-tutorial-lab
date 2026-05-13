@@ -164,6 +164,14 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/13-execution-and-control-flow/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+応用へ進めます
+level: 標準
+topic: ...
+```
+
 ## ハンズオン
 
 1. `score`を60、80、95へ変えて、`if`と`switch`の出力を確認してください。

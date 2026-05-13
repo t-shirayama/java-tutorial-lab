@@ -136,6 +136,15 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/09-method-references-and-lambdas/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+== names ==
+Java
+Maven
+Docker
+```
+
 ## ハンズオン
 
 1. `Predicate`の条件を`name.length() >= 5`へ変えて、残る名前がどう変わるか確認してください。

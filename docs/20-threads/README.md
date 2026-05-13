@@ -66,6 +66,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/20-threads/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+task-1 done
+future result: ...
+```
+
 ## ハンズオン
 
 1. タスク数を`5`から`20`へ増やし、出力されるスレッド名を確認してください。

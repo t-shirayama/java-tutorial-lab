@@ -42,6 +42,14 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/22-web-technologies/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+request method: GET
+client class: ...
+zip bytes: ...
+```
+
 ## ハンズオン
 
 1. HTTPリクエストのURIを変えて、`request.method()`や`client class`の出力を確認してください。

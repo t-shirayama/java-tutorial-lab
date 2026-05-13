@@ -46,6 +46,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/17-inheritance/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+教材: ...
+polymorphism: ...
+```
+
 ## ハンズオン
 
 1. `VideoLesson`の`category()`の戻り値を変え、同じ`Lesson[]`のループで出力が変わることを確認してください。

@@ -50,6 +50,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/16-numbers/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+0.1 + 0.2 = ...
+BigDecimal: 0.3
+```
+
 ## ハンズオン
 
 1. `new BigDecimal("0.1")`、`new BigDecimal(0.1)`、`BigDecimal.valueOf(0.1)`の出力を比べてください。

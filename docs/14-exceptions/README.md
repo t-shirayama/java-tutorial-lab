@@ -120,6 +120,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/14-exceptions/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+invalid score: ...
+close: StudyResource
+```
+
 ## ハンズオン
 
 1. 数値文字列を不正な値に変え、`catch`がどのように動くか確認してください。

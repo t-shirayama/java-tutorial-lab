@@ -42,6 +42,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/15-characters-and-text/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+code point: ...
+UTF-8 bytes: ...
+```
+
 ## ハンズオン
 
 1. 文字列に`"A"`、`"あ"`、`"🍵"`を足し、`length`、`codePointCount`、UTF-8バイト数の変化を確認してください。

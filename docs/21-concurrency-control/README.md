@@ -72,6 +72,13 @@ docker compose up -d --build
 docker compose exec -w /workspace/docs/21-concurrency-control/examples java mvn compile exec:java
 ```
 
+期待される出力例:
+
+```text
+unsafe counter: ...
+atomic counter: ...
+```
+
 ## ハンズオン
 
 1. タスク数を`1_000`から`10_000`へ増やし、`unsafe counter`が期待値どおりにならないことがあるか確認してください。
