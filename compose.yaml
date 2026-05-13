@@ -1,0 +1,9 @@
+services:
+  java:
+    build:
+      context: .
+      dockerfile: docker/java/Dockerfile
+    command: sleep infinity
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
