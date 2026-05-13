@@ -94,6 +94,20 @@ docker compose exec -w /workspace/docs/11-interfaces/examples java mvn compile e
 
 `default`メソッドは便利ですが、実装の詳細を入れすぎるとインタフェースが重くなります。共通処理が本当にすべての実装に合うか確認します。
 
+## 練習問題
+
+### Level 1
+
+実装クラスを切り替えて出力を確認してください。
+
+### Level 2
+
+新しい`Notifier`実装を1つ追加してください。
+
+### Level 3
+
+呼び出し側が具象クラス名を知らない形に整理してください。
+
 ## 理解チェック
 
 1. インタフェースは何を表す約束ですか？

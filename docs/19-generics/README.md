@@ -120,6 +120,20 @@ raw.add(123);
 
 型を指定しないと、間違った型の混入に気づきにくくなります。`List<String>`のように要素の型を指定します。
 
+## 練習問題
+
+### Level 1
+
+`Box<String>`を`Box<Integer>`に変えて確認してください。
+
+### Level 2
+
+`sum`へ異なる数値型のListを渡してください。
+
+### Level 3
+
+raw typeの危険な例を型付きListへ直してください。
+
 ## 理解チェック
 
 1. `List<String>`とraw typeの違いは何ですか？

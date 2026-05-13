@@ -84,6 +84,20 @@ docker compose exec -w /workspace/docs/21-concurrency-control/examples java mvn 
 
 `count++`は「読む」「1足す」「書き戻す」に分かれます。複数スレッドから同時に実行する場合は、`AtomicInteger`や`synchronized`を検討します。
 
+## 練習問題
+
+### Level 1
+
+更新回数を増やしてunsafe counterの結果を確認してください。
+
+### Level 2
+
+`AtomicInteger`版と比較してください。
+
+### Level 3
+
+共有状態を使わない設計に書き換える案を考えてください。
+
 ## 理解チェック
 
 1. `count++`が原子的でないとはどういう意味ですか？

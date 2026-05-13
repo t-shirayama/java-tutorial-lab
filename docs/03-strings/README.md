@@ -171,6 +171,20 @@ System.out.println(a == b); // false
 System.out.println(a.equals(b)); // true
 ```
 
+## 練習問題
+
+### Level 1
+
+文字列の値を変えて、`length`や`contains`の結果を確認してください。
+
+### Level 2
+
+`replace`や`substring`を使った表示を1つ追加してください。
+
+### Level 3
+
+入力文字列を整形して学習ラベルを作る小さなメソッドを追加してください。
+
 ## 理解チェック
 
 1. `String`が不変であるとはどういう意味ですか？

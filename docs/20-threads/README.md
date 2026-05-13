@@ -78,6 +78,20 @@ docker compose exec -w /workspace/docs/20-threads/examples java mvn compile exec
 
 仮想スレッドは待ち時間の多い処理を扱いやすくします。CPUを使い続ける重い計算を魔法のように速くする仕組みではありません。
 
+## 練習問題
+
+### Level 1
+
+タスク数を変えて出力順を確認してください。
+
+### Level 2
+
+`Future#get`で結果を受け取る処理を追加してください。
+
+### Level 3
+
+待ち時間のある処理とCPU計算の違いを説明してください。
+
 ## 理解チェック
 
 1. 仮想スレッドはどんな処理に向いていますか？

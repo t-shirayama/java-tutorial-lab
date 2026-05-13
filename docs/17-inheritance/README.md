@@ -52,6 +52,20 @@ docker compose exec -w /workspace/docs/17-inheritance/examples java mvn compile 
 2. `@Override`を外してメソッド名を`catgory`のように間違えると、どんな問題が起きるか考えてください。
 3. 新しい`QuizLesson`を追加し、親クラスとして同じ配列で扱えることを確認してください。
 
+## 練習問題
+
+### Level 1
+
+サブクラスの表示内容を変えて確認してください。
+
+### Level 2
+
+オーバーライドするメソッドを1つ追加してください。
+
+### Level 3
+
+継承ではなく委譲にした方がよい例を考えてください。
+
 ## 理解チェック
 
 1. 継承が向いているis-a関係とは何ですか？

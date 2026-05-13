@@ -218,6 +218,20 @@ List<String> mutable = new ArrayList<>(names);
 mutable.add("Maven");
 ```
 
+## 練習問題
+
+### Level 1
+
+Listへ要素を追加し、順序と件数を確認してください。
+
+### Level 2
+
+Mapにキーを追加し、`getOrDefault`で取得してください。
+
+### Level 3
+
+Set、ArrayDeque、配列を使った小さなメニューを作ってください。
+
 ## 理解チェック
 
 1. 順序を保ちたいときはどのコレクションを選びますか？
