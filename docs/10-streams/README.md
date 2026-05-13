@@ -34,6 +34,26 @@ List<String> result = names.stream()
 
 `filter`は残す条件、`map`は変換、`toList`は結果の取り出しです。Streamの読み方で迷ったら、いったん`for`文に戻して考えると理解しやすくなります。
 
+この章の題材である`Lesson`でも同じです。次の2つは、どちらも「30分以上のレッスンのタイトルを集める」処理です。
+
+```java
+List<String> titles = new ArrayList<>();
+for (Lesson lesson : lessons) {
+    if (lesson.minutes() >= 30) {
+        titles.add(lesson.title());
+    }
+}
+```
+
+```java
+List<String> titles = lessons.stream()
+        .filter(lesson -> lesson.minutes() >= 30)
+        .map(Lesson::title)
+        .toList();
+```
+
+`for`文では結果用の`List`を先に作り、自分で`add`します。Streamでは「絞る」「変換する」「集める」を順に書くため、データ加工の意図を表しやすくなります。
+
 例えば「30分以上のレッスン名だけを取り出す」は、次のように読めます。
 
 ```java
