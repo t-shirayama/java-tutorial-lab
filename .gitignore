@@ -1,2 +1,4 @@
 _site/
 *.class
+dist/
+node_modules/
