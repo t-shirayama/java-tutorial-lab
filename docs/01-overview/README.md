@@ -39,6 +39,8 @@ Javaを学ぶときは、次の3つを分けて考えると理解しやすくな
 - Java API: `String`、`List`、`Map`、`Path`、`HttpClient`などの標準ライブラリ
 - Java実行環境: JVM、JDK、`java`、`javac`、Mavenなどのツール
 
+JDK、JRE、JVMは似た言葉ですが、役割が違います。JDKは開発に必要な道具一式、JREは実行に必要な環境、JVMはJavaバイトコードを実行する仮想マシンです。現在の開発では、まずJDKを入れると考えると分かりやすいです。
+
 ## 1-2 Javaの歴史
 
 Javaは、もともとOakという名前で設計され、その後インターネット向けに方向づけられてJavaという名前になりました。この経緯は、Java Language Specificationの初版序文でも説明されています。

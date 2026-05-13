@@ -52,6 +52,8 @@ try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
 `Future#get`は結果が出るまで待ちます。待ち時間のある処理をたくさん扱う場合は仮想スレッドが便利ですが、CPUを使い切る重い計算を無制限に速くするものではありません。
 
+スレッドを止めたい場合は、いきなり強制終了するのではなく、割り込みを使って「止まってほしい」と伝える考え方があります。割り込みは発展的な話題ですが、`InterruptedException`を握りつぶさないことだけ先に覚えておくと安全です。
+
 ## 実行して確認する
 
 ```bash

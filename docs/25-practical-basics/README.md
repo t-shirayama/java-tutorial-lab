@@ -78,6 +78,17 @@ void guestNameIsUsedWhenNameIsNull() {
 
 手で実行結果を毎回確認する代わりに、`mvn test`で自動的に確認できます。
 
+異常系のテストでは、期待した例外が出ることも確認できます。
+
+```java
+@Test
+void parseIntFailsWhenTextIsNotNumber() {
+    assertThrows(NumberFormatException.class, () -> Integer.parseInt("abc"));
+}
+```
+
+正常系と異常系の両方を少しずつ追加すると、変更したときに壊れた場所へ気づきやすくなります。
+
 ## 25-3 ファイル入出力
 
 Java 21では、`java.nio.file.Path`と`java.nio.file.Files`を使うと、短いコードでテキストファイルを読み書きできます。
