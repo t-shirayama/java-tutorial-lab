@@ -12,6 +12,13 @@
 - Predicate、Function、Consumer、Supplierを使い分けられる
 - 短い処理をラムダ式として渡せる
 
+## この章で学ぶこと
+
+- ラムダ式を「あとで呼ばれる小さな処理」として読む方法
+- メソッド参照が既存メソッドを渡す記法であること
+- `Predicate`、`Function`、`Consumer`など標準関数型インタフェースの役割
+- ラムダ式を短く保ち、処理を読みやすく分ける判断
+
 ## 18-1 メソッド参照
 
 メソッド参照は、既存メソッドを処理として渡す書き方です。`System.out::println`のように書きます。
@@ -149,10 +156,10 @@ docker compose exec -w /workspace/docs/18-method-references-and-lambdas/examples
 期待される出力例:
 
 ```text
-== names ==
-Java
-Maven
-Docker
+== filter + map + method reference ==
+学習: JAVA
+学習: MAVEN
+学習: STREAM
 ```
 
 ## ハンズオン

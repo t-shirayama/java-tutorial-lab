@@ -10,11 +10,27 @@
 - CSVやzipなど標準APIで扱える範囲を説明できる
 - JSONライブラリを使う判断基準を説明できる
 
+## この章で学ぶこと
+
+- Java標準APIでHTTPリクエストを組み立てる流れ
+- CSV風文字列、簡単なJSON風文字列、zip作成を試す範囲
+- 手作りJSONが実務データに向かない理由
+- 外部ライブラリを使う場合にMavenへ依存関係を追加する考え方
+
 ## 26-1 HTTPクライアント処理
 
 `java.net.http.HttpClient`を使うと、HTTPリクエストを送れます。`HttpRequest`でリクエストを作り、`HttpResponse`でレスポンスを受け取ります。
 
 この章のサンプルは、ネットワーク環境に左右されないように、実際の送信ではなくリクエスト作成を中心に確認します。
+
+```java
+HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create("https://example.com"))
+        .GET()
+        .build();
+```
+
+まずは「どこへ、どのHTTPメソッドで送るか」を`HttpRequest`にまとめるところから確認します。実務では送信前にタイムアウトやヘッダーも検討します。
 
 ## 26-2 データ処理（JSON、XML、CSV、zip）
 
@@ -23,6 +39,12 @@ Java標準APIにはCSVやJSON専用の高水準APIはありません。実務で
 ## 26-3 JSONライブラリの考え方
 
 サンプルの`toTinyJson`は、学習用に小さなJSON風文字列を作るだけです。文字列に`"`や改行が入る場合のエスケープ、配列、ネストしたオブジェクト、日付形式などを正しく扱うには不十分です。
+
+```java
+String tinyJson = "{\"title\":\"Java\"}";
+```
+
+このような短い文字列なら仕組みの観察に使えますが、入力値を連結して実務データを作るのは危険です。
 
 実務では、Jackson、Gson、JSON-Bなどのライブラリを検討します。選ぶときは、プロジェクトで使っているフレームワークとの相性、メンテナンス状況、日付やnullの扱い、セキュリティアップデートの追従しやすさを見ます。
 
@@ -59,7 +81,7 @@ docker compose exec -w /workspace/docs/26-web-technologies/examples java mvn com
 期待される出力例:
 
 ```text
-request method: GET
+http method: GET
 client class: ...
 zip bytes: ...
 ```

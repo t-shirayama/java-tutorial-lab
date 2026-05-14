@@ -12,6 +12,13 @@
 - 実装クラスを差し替えやすい設計を説明できる
 - 関数型インタフェースとラムダ式の関係を説明できる
 
+## この章で学ぶこと
+
+- インタフェースを「何ができるか」の約束として読む考え方
+- `implements`、`default`メソッド、`static`メソッドの基本
+- 関数型インタフェースとラムダ式がつながる理由
+- 小さく安定したインタフェースを設計する判断
+
 ## 14-1 インタフェースとは
 
 インタフェースは、クラスが持つべきメソッドの約束です。
@@ -94,8 +101,8 @@ docker compose exec -w /workspace/docs/14-interfaces/examples java mvn compile e
 期待される出力例:
 
 ```text
-ConsoleNotifier: 学習を開始します
-MemoryNotifier: ...
+[console] 学習を開始します
+memory: [...]
 ```
 
 ## ハンズオン

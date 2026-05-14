@@ -16,11 +16,25 @@ FFM APIは、従来のJNIよりもJavaコードから外部メモリや外部関
 - 外部メモリと外部関数呼び出しの概要を説明できる
 - Java 21でpreview機能を扱う注意を説明できる
 
+## この章で学ぶこと
+
+- FFM APIがJVM外のメモリや関数へつながる入口であること
+- `Arena`、`MemorySegment`、`Linker`の大まかな役割
+- Java 21ではFFM APIがpreview機能であること
+- 通常サンプルとpreview機能の実験を分けて扱う理由
+
 ## 27-1 FFM API（Foreign Function & Memory API）
 
 FFM APIは、JVM外のメモリや関数とやり取りするためのAPIです。パッケージは`java.lang.foreign`です。
 
 JVMの外にあるメモリやネイティブ関数に触れると、Javaだけで完結するコードよりもOS、CPU、ネイティブライブラリの影響を受けやすくなります。最初は標準APIの通常の範囲で十分かを確認し、それでも必要な場合に検討します。
+
+```java
+Class<?> arenaClass = Class.forName("java.lang.foreign.Arena");
+System.out.println(arenaClass.getName());
+```
+
+この章のサンプルでは、preview機能を直接使うコードではなく、型の存在確認に留めます。通常の`mvn compile exec:java`で動く学習体験を優先するためです。
 
 ## 27-2 外部メモリへのアクセス
 

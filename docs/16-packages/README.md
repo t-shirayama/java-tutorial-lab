@@ -12,6 +12,13 @@
 - アクセス制御とパッケージプライベートを説明できる
 - 小さなパッケージ設計の方針を立てられる
 
+## この章で学ぶこと
+
+- パッケージを名前空間として使う理由
+- `package`宣言、フォルダ構成、`import`宣言の対応
+- `public`とパッケージプライベートによる見える範囲の違い
+- 小さなサンプルでは扱わないモジュールシステムへの入口
+
 ## 16-1 パッケージの役割
 
 パッケージはクラスの名前空間です。`java.util.List`のように、完全修飾名でクラスを一意に表せます。
@@ -25,6 +32,15 @@
 ## 16-3 パッケージ宣言
 
 ソースファイルの先頭に`package`宣言を書きます。`package lab.packagesdemo;`と書いたファイルは、通常`src/main/java/lab/packagesdemo/`に置きます。
+
+```java
+package lab.packagesdemo;
+
+public class MessageFormatter {
+}
+```
+
+`package`宣言、フォルダ、`pom.xml`の`mainClass`に書く完全修飾名がずれると、コンパイルや実行でクラスを見つけにくくなります。
 
 ## 16-4 インポート宣言
 
@@ -73,8 +89,9 @@ docker compose exec -w /workspace/docs/16-packages/examples java mvn compile exe
 期待される出力例:
 
 ```text
-formatted message: ...
-package: lab.packagesdemo
+package topic: import
+package-private topic: access control
+full name: java.util.Map$Entry
 ```
 
 ## ハンズオン

@@ -56,6 +56,10 @@ Java学習でよく見るエラーは、大きく3種類に分けられます。
 
 例えば、変数名を書き間違えると次のようなエラーになります。
 
+```java
+System.out.println(userNmae);
+```
+
 ```text
 [ERROR] /workspace/docs/.../Example.java:[12,28] cannot find symbol
 [ERROR]   symbol:   variable userNmae

@@ -14,6 +14,13 @@
 - raw typeの危険性を説明できる
 - extendsとsuperのワイルドカードを読み分けられる
 
+## この章で学ぶこと
+
+- `List<String>`のように型を引数として渡す考え方
+- ジェネリック型宣言とジェネリックメソッドの読み方
+- `? extends`と`? super`を使う場面の違い
+- raw typeを避け、型安全にコレクションを扱う判断
+
 ## 17-1 ジェネリック型とは
 
 ジェネリック型は、型を後から指定できるクラスやインタフェースです。サンプルの`Box<T>`は、`Box<String>`にも`Box<Integer>`にもできます。
@@ -117,9 +124,10 @@ docker compose exec -w /workspace/docs/17-generics/examples java mvn compile exe
 期待される出力例:
 
 ```text
-box: ...
+ジェネリック
+型安全
 sum: ...
-PECS: ...
+numbers: [...]
 ```
 
 ## ハンズオン

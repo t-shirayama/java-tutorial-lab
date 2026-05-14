@@ -12,6 +12,13 @@
 - ExecutorServiceへタスクを渡せる
 - Future#getが結果を待つことを説明できる
 
+## この章で学ぶこと
+
+- スレッドで複数の処理を並行して進める考え方
+- 仮想スレッドとプラットフォームスレッドの違い
+- `ExecutorService`へタスクを渡し、`Future`で結果を受け取る流れ
+- 出力順や完了順に依存しないコードを書く注意点
+
 ## 24-1 マルチスレッド
 
 マルチスレッドは、複数の処理を並行して実行する仕組みです。たとえば、複数のHTTPリクエスト待ちやファイル処理を同時に進めたいときに役立ちます。
@@ -81,8 +88,9 @@ docker compose exec -w /workspace/docs/24-threads/examples java mvn compile exec
 期待される出力例:
 
 ```text
-task-1 done
-future result: ...
+platform: Thread[...]
+virtual task 1 on VirtualThread[...]
+virtual task 2 on VirtualThread[...]
 ```
 
 ## ハンズオン

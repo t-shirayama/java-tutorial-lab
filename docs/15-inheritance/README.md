@@ -10,6 +10,13 @@
 - is-a関係を使って継承の妥当性を判断できる
 - 継承より委譲が向く場面を説明できる
 
+## この章で学ぶこと
+
+- `extends`、`super`、`@Override`を使った継承の基本
+- 子クラスを親クラスとして扱うポリモーフィズム
+- インタフェースの拡張継承とクラス継承の違い
+- `final`、`sealed`、委譲を使って継承を広げすぎない考え方
+
 ## 15-1 拡張継承
 
 継承を使うと、共通するフィールドやメソッドを親クラスへまとめられます。子クラスは親クラスとして扱えるため、`Lesson[]`の中に`ReadingLesson`や`VideoLesson`を一緒に入れられます。
@@ -21,6 +28,17 @@
 `extends`で親クラスを指定します。子クラスは親クラスのメソッドを引き継ぎ、必要に応じて上書きできます。上書きはオーバーライドと呼び、`@Override`を付けるとメソッド名の間違いをコンパイラが見つけてくれます。
 
 親クラスの処理を使いたいときは`super.describe()`のように`super`を使います。
+
+```java
+class VideoLesson extends Lesson {
+    @Override
+    String category() {
+        return "動画";
+    }
+}
+```
+
+`@Override`を付けておくと、親クラスに存在しないメソッド名を書いたときにコンパイルエラーで気づけます。
 
 ## 15-3 インタフェース自体の拡張継承
 
@@ -61,8 +79,9 @@ docker compose exec -w /workspace/docs/15-inheritance/examples java mvn compile 
 期待される出力例:
 
 ```text
-教材: ...
-polymorphism: ...
+Reading Lesson: 継承 / category=general / runtime=ReadingLesson
+Lesson: オーバーライド / category=video / runtime=VideoLesson
+name=Java
 ```
 
 ## ハンズオン
