@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+if [ "${SKIP_SITE_CHECK:-}" = "1" ]; then
+  echo "Skipping site regression check because SKIP_SITE_CHECK=1"
+  exit 0
+fi
+
+npm run check:site
