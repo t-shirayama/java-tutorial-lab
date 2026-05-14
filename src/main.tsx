@@ -140,6 +140,7 @@ function prepareInstantPageJump() {
 
   root.style.scrollBehavior = "auto";
   body.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
 
   window.setTimeout(() => {
     root.style.scrollBehavior = previousRootScrollBehavior;
