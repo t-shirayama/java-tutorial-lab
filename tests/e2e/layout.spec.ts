@@ -124,16 +124,24 @@ test.describe("tutorial layout", () => {
     await page.getByRole("button", { name: "サイドメニューを閉じる" }).click();
     await expect(page.locator(".sidebar-restore")).toBeVisible();
 
-    const collapsed = await page.evaluate(() => {
-      const sidebar = document.querySelector(".sidebar")!.getBoundingClientRect();
-      const main = document.querySelector(".main-pane")!.getBoundingClientRect();
-      return { sidebarRight: sidebar.right, mainLeft: main.left };
-    });
-
     expect(before.sidebarRight).toBeGreaterThan(280);
     expect(before.mainLeft).toBeGreaterThanOrEqual(before.sidebarRight - 1);
-    expect(collapsed.sidebarRight).toBeLessThanOrEqual(4);
-    expect(collapsed.mainLeft).toBeLessThan(40);
+    await expect
+      .poll(async () =>
+        page.evaluate(() => {
+          const sidebar = document.querySelector(".sidebar")!.getBoundingClientRect();
+          return sidebar.right;
+        })
+      )
+      .toBeLessThanOrEqual(4);
+    await expect
+      .poll(async () =>
+        page.evaluate(() => {
+          const main = document.querySelector(".main-pane")!.getBoundingClientRect();
+          return main.left;
+        })
+      )
+      .toBeLessThan(40);
 
     await page.locator(".sidebar-restore").click();
     await expect(page.getByRole("button", { name: "サイドメニューを閉じる" })).toBeVisible();
