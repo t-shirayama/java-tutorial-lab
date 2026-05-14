@@ -199,6 +199,8 @@ test.describe("tutorial layout", () => {
 
     await page.getByRole("link", { name: /11章 例外処理/ }).click();
     await expect(page.getByRole("heading", { name: "11章 例外処理" })).toBeVisible();
+    const scrollYAfterNavigation = await page.evaluate(() => window.scrollY);
+    expect(scrollYAfterNavigation, "chapter navigation should jump to top without smooth scrolling").toBeLessThan(20);
     await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20);
   });
 

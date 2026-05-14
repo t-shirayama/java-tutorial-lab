@@ -106,6 +106,61 @@ function searchChapters(query: string): SearchResult[] {
     .slice(0, 8);
 }
 
+function jumpToPageTop() {
+  const root = document.documentElement;
+  const body = document.body;
+  const previousRootScrollBehavior = root.style.scrollBehavior;
+  const previousBodyScrollBehavior = body.style.scrollBehavior;
+  const animationFrames: number[] = [];
+
+  root.style.scrollBehavior = "auto";
+  body.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+
+  const restoreScrollBehavior = () => {
+    root.style.scrollBehavior = previousRootScrollBehavior;
+    body.style.scrollBehavior = previousBodyScrollBehavior;
+  };
+
+  animationFrames.push(window.requestAnimationFrame(() => {
+    animationFrames.push(window.requestAnimationFrame(restoreScrollBehavior));
+  }));
+
+  return () => {
+    animationFrames.forEach((animationFrame) => window.cancelAnimationFrame(animationFrame));
+    restoreScrollBehavior();
+  };
+}
+
+function prepareInstantPageJump() {
+  const root = document.documentElement;
+  const body = document.body;
+  const previousRootScrollBehavior = root.style.scrollBehavior;
+  const previousBodyScrollBehavior = body.style.scrollBehavior;
+
+  root.style.scrollBehavior = "auto";
+  body.style.scrollBehavior = "auto";
+
+  window.setTimeout(() => {
+    root.style.scrollBehavior = previousRootScrollBehavior;
+    body.style.scrollBehavior = previousBodyScrollBehavior;
+  }, 120);
+}
+
+function handleRouteLinkClick(close: () => void) {
+  return () => {
+    prepareInstantPageJump();
+    close();
+  };
+}
+
+function handleRouteSearchLinkClick(clear: () => void) {
+  return () => {
+    prepareInstantPageJump();
+    clear();
+  };
+}
+
 function App() {
   const route = useRoute();
   const routeKey = route.kind === "chapter" ? `${route.kind}:${route.slug}` : route.kind;
@@ -128,15 +183,7 @@ function App() {
   }, []);
 
   useLayoutEffect(() => {
-    const root = document.documentElement;
-    const previousScrollBehavior = root.style.scrollBehavior;
-    root.style.scrollBehavior = "auto";
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    const animationFrame = window.requestAnimationFrame(() => {
-      root.style.scrollBehavior = previousScrollBehavior;
-    });
-
-    return () => window.cancelAnimationFrame(animationFrame);
+    return jumpToPageTop();
   }, [routeKey]);
 
   useEffect(() => {
@@ -357,7 +404,7 @@ function Sidebar({
       <div className={`sidebar-backdrop ${open ? "show" : ""}`} onClick={close} />
       <aside className={`sidebar ${open ? "show" : ""} ${collapsed ? "collapsed" : ""}`} aria-hidden={collapsed && !open}>
         <div className="sidebar-top">
-          <a className="all-chapters" href={homeHref()} onClick={close}>
+          <a className="all-chapters" href={homeHref()} onClick={handleRouteLinkClick(close)}>
             <Home size={16} />
             すべての章
           </a>
@@ -383,7 +430,7 @@ function Sidebar({
                 <a
                   href={chapterHref(chapter.slug)}
                   className={`chapter-link ${active ? "active" : ""}`}
-                  onClick={close}
+                  onClick={handleRouteLinkClick(close)}
                 >
                   <span className="chapter-icon">{completed ? <CheckCircle2 size={15} /> : <FileText size={15} />}</span>
                   <span>{chapter.number}章 {chapter.shortTitle}</span>
@@ -410,7 +457,7 @@ function Sidebar({
             );
           })}
         </nav>
-        <a className="about-link" href={glossaryHref()} onClick={close}>
+        <a className="about-link" href={glossaryHref()} onClick={handleRouteLinkClick(close)}>
           <BookOpen size={17} />
           用語集
           <ChevronDown size={16} />
@@ -590,7 +637,7 @@ function SearchPanel({ query, results, clear }: { query: string; results: Search
       {results.length ? (
         <div className="search-results">
           {results.map(({ chapter, excerpt }) => (
-            <a key={chapter.slug} href={chapterHref(chapter.slug)} onClick={clear}>
+            <a key={chapter.slug} href={chapterHref(chapter.slug)} onClick={handleRouteSearchLinkClick(clear)}>
               <span>{chapter.number}章</span>
               <strong>{chapter.shortTitle}</strong>
               <p>{excerpt}</p>
