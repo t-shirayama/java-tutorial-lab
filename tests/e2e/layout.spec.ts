@@ -109,6 +109,77 @@ test.describe("tutorial layout", () => {
     );
   });
 
+  test("desktop sidebar can be collapsed and restored", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
+
+    await page.goto("/#/chapters/10-java-program-execution");
+    await expect(page.getByRole("heading", { name: "10章 Javaプログラムの実行" })).toBeVisible();
+
+    const before = await page.evaluate(() => {
+      const sidebar = document.querySelector(".sidebar")!.getBoundingClientRect();
+      const main = document.querySelector(".main-pane")!.getBoundingClientRect();
+      return { sidebarRight: sidebar.right, mainLeft: main.left };
+    });
+
+    await page.getByRole("button", { name: "サイドメニューを閉じる" }).click();
+    await expect(page.locator(".sidebar-restore")).toBeVisible();
+
+    const collapsed = await page.evaluate(() => {
+      const sidebar = document.querySelector(".sidebar")!.getBoundingClientRect();
+      const main = document.querySelector(".main-pane")!.getBoundingClientRect();
+      return { sidebarRight: sidebar.right, mainLeft: main.left };
+    });
+
+    expect(before.sidebarRight).toBeGreaterThan(280);
+    expect(before.mainLeft).toBeGreaterThanOrEqual(before.sidebarRight - 1);
+    expect(collapsed.sidebarRight).toBeLessThanOrEqual(4);
+    expect(collapsed.mainLeft).toBeLessThan(40);
+
+    await page.locator(".sidebar-restore").click();
+    await expect(page.getByRole("button", { name: "サイドメニューを閉じる" })).toBeVisible();
+  });
+
+  test("sidebar highlights the section closest to the reading position", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
+
+    await page.goto("/#/chapters/10-java-program-execution");
+    await expect(page.getByRole("heading", { name: "10章 Javaプログラムの実行" })).toBeVisible();
+
+    await page.evaluate(() => {
+      const section = document.getElementById("10-3-コマンドライン引数");
+      if (section) {
+        document.documentElement.style.scrollBehavior = "auto";
+        window.scrollTo(0, window.scrollY + section.getBoundingClientRect().top - 100);
+      }
+    });
+
+    await expect
+      .poll(async () =>
+        page.evaluate(() => document.querySelector(".section-link.active")?.textContent?.trim())
+      )
+      .toContain("10-3 コマンドライン引数");
+  });
+
+  test("markdown links resolve to app routes or repository files", async ({ page }) => {
+    await page.goto("/#/chapters/01-overview");
+    await expect(page.getByRole("heading", { name: "1章 Javaの概要" })).toBeVisible();
+
+    await expect(page.getByRole("link", { name: "JavaOverviewApp.java" })).toHaveAttribute(
+      "href",
+      "https://github.com/t-shirayama/java-tutorial-lab/blob/main/docs/01-overview/examples/src/main/java/lab/overview/JavaOverviewApp.java"
+    );
+
+    await page.goto("/#/glossary");
+    await expect(page.getByRole("heading", { name: "用語集" })).toBeVisible();
+    await expect(page.locator(".markdown-body a", { hasText: "1章" }).first()).toHaveAttribute(
+      "href",
+      "#/chapters/01-overview"
+    );
+
+    await page.goto("/");
+    await expect(page.locator(".markdown-body a", { hasText: "用語集" }).first()).toHaveAttribute("href", "#/glossary");
+  });
+
   test("code blocks render as dark editor panels", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
 

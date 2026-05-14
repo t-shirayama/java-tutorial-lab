@@ -14,6 +14,8 @@ import {
   Link2,
   ListChecks,
   Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
   Search,
   Sparkles,
   Target,
@@ -109,8 +111,10 @@ function App() {
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
   const [query, setQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const activeChapter = route.kind === "chapter" ? findChapter(route.slug) : undefined;
+  const activeSectionId = useActiveSection(activeChapter);
   const completedSet = useMemo(() => new Set(progress.completedChapters), [progress.completedChapters]);
   const completedCount = chapters.filter((chapter) => completedSet.has(chapter.slug)).length;
   const progressPercent = Math.round((completedCount / chapters.length) * 100);
@@ -147,7 +151,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${sidebarCollapsed ? "sidebar-collapsed" : ""}`}>
       <TopBar
         query={query}
         setQuery={setQuery}
@@ -158,10 +162,24 @@ function App() {
       <div className="app-body">
         <Sidebar
           activeChapter={activeChapter}
+          activeSectionId={activeSectionId}
           completedSet={completedSet}
           open={sidebarOpen}
+          collapsed={sidebarCollapsed}
           close={() => setSidebarOpen(false)}
+          toggleCollapsed={() => setSidebarCollapsed((collapsed) => !collapsed)}
         />
+        {sidebarCollapsed ? (
+          <button
+            className="sidebar-restore"
+            type="button"
+            onClick={() => setSidebarCollapsed(false)}
+            aria-label="サイドメニューを開く"
+          >
+            <PanelLeftOpen size={18} />
+            目次
+          </button>
+        ) : null}
         <main className="main-pane">
           {query.trim() ? (
             <SearchPanel query={query} results={searchResults} clear={() => setQuery("")} />
@@ -183,6 +201,65 @@ function App() {
       </div>
     </div>
   );
+}
+
+function useActiveSection(activeChapter?: Chapter): string | undefined {
+  const sectionIds = useMemo(
+    () => new Set(activeChapter?.sections.filter((section) => /^\d+-\d+/.test(section.title)).map((section) => section.id) ?? []),
+    [activeChapter]
+  );
+  const [activeSectionId, setActiveSectionId] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (!activeChapter || sectionIds.size === 0) {
+      setActiveSectionId(undefined);
+      return;
+    }
+
+    let animationFrame = 0;
+
+    const updateActiveSection = () => {
+      animationFrame = 0;
+      const headings = Array.from(document.querySelectorAll<HTMLElement>(".markdown-body h2[id], .markdown-body h3[id]"))
+        .filter((heading) => sectionIds.has(heading.id));
+
+      if (!headings.length) {
+        setActiveSectionId(undefined);
+        return;
+      }
+
+      const readingLine = 118;
+      const current =
+        headings
+          .map((heading) => ({ id: heading.id, top: heading.getBoundingClientRect().top }))
+          .filter((heading) => heading.top <= readingLine)
+          .at(-1) ?? headings.map((heading) => ({ id: heading.id, top: heading.getBoundingClientRect().top }))[0];
+
+      setActiveSectionId((previous) => (previous === current.id ? previous : current.id));
+    };
+
+    const scheduleUpdate = () => {
+      if (animationFrame) {
+        return;
+      }
+      animationFrame = window.requestAnimationFrame(updateActiveSection);
+    };
+
+    const timeout = window.setTimeout(updateActiveSection, 80);
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [activeChapter, sectionIds]);
+
+  return activeSectionId;
 }
 
 function TopBar({
@@ -236,24 +313,43 @@ function TopBar({
 
 function Sidebar({
   activeChapter,
+  activeSectionId,
   completedSet,
   open,
-  close
+  collapsed,
+  close,
+  toggleCollapsed
 }: {
   activeChapter?: Chapter;
+  activeSectionId?: string;
   completedSet: Set<string>;
   open: boolean;
+  collapsed: boolean;
   close: () => void;
+  toggleCollapsed: () => void;
 }) {
+  function scrollToSection(sectionId: string) {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    close();
+  }
+
   return (
     <>
       <div className={`sidebar-backdrop ${open ? "show" : ""}`} onClick={close} />
-      <aside className={`sidebar ${open ? "show" : ""}`}>
+      <aside className={`sidebar ${open ? "show" : ""} ${collapsed ? "collapsed" : ""}`} aria-hidden={collapsed && !open}>
         <div className="sidebar-top">
           <a className="all-chapters" href={homeHref()} onClick={close}>
             <Home size={16} />
             すべての章
           </a>
+          <button
+            className="icon-button sidebar-collapse"
+            type="button"
+            onClick={toggleCollapsed}
+            aria-label={collapsed ? "サイドメニューを開く" : "サイドメニューを閉じる"}
+          >
+            {collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+          </button>
           <button className="icon-button sidebar-close" type="button" onClick={close} aria-label="閉じる">
             <X size={18} />
           </button>
@@ -278,12 +374,16 @@ function Sidebar({
                   <div className="section-list">
                     {chapter.sections
                       .filter((section) => /^\d+-\d+/.test(section.title))
-                      .slice(0, 8)
                       .map((section) => (
-                        <span key={section.id} className="section-link">
+                        <button
+                          key={section.id}
+                          className={`section-link ${activeSectionId === section.id ? "active" : ""}`}
+                          type="button"
+                          onClick={() => scrollToSection(section.id)}
+                        >
                           <Circle size={10} />
                           {section.title}
-                        </span>
+                        </button>
                       ))}
                   </div>
                 ) : null}

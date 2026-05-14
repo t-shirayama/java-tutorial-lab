@@ -3,6 +3,8 @@ import hljs from "highlight.js";
 
 type RawModules = Record<string, string>;
 
+const repositoryBlobBase = "https://github.com/t-shirayama/java-tutorial-lab/blob/main/";
+
 const markdownFiles = import.meta.glob("../docs/**/README.md", {
   query: "?raw",
   import: "default",
@@ -100,17 +102,81 @@ function slugify(value: string): string {
     .replace(/^-+|-+$/g, "") || "section";
 }
 
-function normalizeMarkdownLinks(markdownText: string): string {
-  return markdownText
-    .replace(/\]\(\.\.\/([0-9]{2}-[^/)]+)\/\)/g, "](#/chapters/$1)")
-    .replace(/\]\(docs\/([0-9]{2}-[^/)]+)\/\)/g, "](#/chapters/$1)")
-    .replace(/\]\(\.\.\/glossary\/\)/g, "](#/glossary)")
-    .replace(/\]\(docs\/glossary\/\)/g, "](#/glossary)");
+function sourcePathToRepoPath(sourcePath: string): string {
+  return sourcePath.replace(/^\.\.\//, "");
 }
 
-function renderMarkdown(markdownText: string): string {
-  return markdown.render(normalizeMarkdownLinks(markdownText));
+function dirname(value: string): string {
+  const index = value.lastIndexOf("/");
+  return index === -1 ? "" : value.slice(0, index);
 }
+
+function normalizePath(value: string): string {
+  const segments: string[] = [];
+  for (const segment of value.split("/")) {
+    if (!segment || segment === ".") {
+      continue;
+    }
+    if (segment === "..") {
+      segments.pop();
+      continue;
+    }
+    segments.push(segment);
+  }
+  return segments.join("/");
+}
+
+function repositoryFileHref(repoPath: string, hash = ""): string {
+  const encodedPath = repoPath.split("/").map(encodeURIComponent).join("/");
+  return `${repositoryBlobBase}${encodedPath}${hash}`;
+}
+
+function normalizeMarkdownHref(href: string, sourcePath: string): string {
+  if (/^(?:https?:|mailto:|tel:|#)/.test(href)) {
+    return href;
+  }
+
+  const [pathPart, hashPart] = href.split("#", 2);
+  const hash = hashPart ? `#${hashPart}` : "";
+  const sourceRepoPath = sourcePathToRepoPath(sourcePath);
+  const targetRepoPath = normalizePath(`${dirname(sourceRepoPath)}/${pathPart}`);
+
+  const chapterSlug = targetRepoPath.match(/^docs\/([0-9]{2}-[^/]+)(?:\/README\.md)?\/?$/)?.[1];
+  if (chapterSlug) {
+    return `#/chapters/${chapterSlug}`;
+  }
+
+  if (/^docs\/glossary(?:\/README\.md)?\/?$/.test(targetRepoPath)) {
+    return "#/glossary";
+  }
+
+  return repositoryFileHref(targetRepoPath, hash);
+}
+
+function renderMarkdown(markdownText: string, sourcePath: string): string {
+  return markdown.render(markdownText, { headingCounts: new Map<string, number>(), sourcePath });
+}
+
+markdown.renderer.rules.heading_open = (tokens, index, options, env, self) => {
+  const token = tokens[index];
+  const inlineToken = tokens[index + 1];
+  const title = inlineToken?.type === "inline" ? inlineToken.content.trim() : "";
+  const baseId = slugify(title);
+  const headingCounts = (env.headingCounts ?? new Map<string, number>()) as Map<string, number>;
+  env.headingCounts = headingCounts;
+  const count = headingCounts.get(baseId) ?? 0;
+  headingCounts.set(baseId, count + 1);
+  token.attrSet("id", count === 0 ? baseId : `${baseId}-${count + 1}`);
+  return self.renderToken(tokens, index, options);
+};
+
+markdown.renderer.rules.link_open = (tokens, index, options, env, self) => {
+  const href = tokens[index].attrGet("href");
+  if (href && typeof env.sourcePath === "string") {
+    tokens[index].attrSet("href", normalizeMarkdownHref(href, env.sourcePath));
+  }
+  return self.renderToken(tokens, index, options);
+};
 
 function extractTitle(markdownText: string): string {
   const title = markdownText.match(/^#\s+(.+)$/m)?.[1]?.trim();
@@ -249,7 +315,7 @@ function chapterFrom(path: string, markdownText: string): Chapter | Glossary | n
 
   const title = extractTitle(markdownText);
   const sections = extractSections(markdownText);
-  const html = renderMarkdown(markdownText);
+  const html = renderMarkdown(markdownText, path);
 
   if (slug === "glossary") {
     return {
@@ -300,7 +366,7 @@ const homeMarkdown = Object.values(rootReadme)[0] ?? "# Javaチュートリア�
 export const homeContent: HomeContent = {
   title: extractTitle(homeMarkdown),
   markdown: homeMarkdown,
-  html: renderMarkdown(homeMarkdown)
+  html: renderMarkdown(homeMarkdown, "../README.md")
 };
 
 export function findChapter(slug: string | null): Chapter | undefined {
