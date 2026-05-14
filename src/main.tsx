@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   BookOpen,
@@ -108,6 +108,7 @@ function searchChapters(query: string): SearchResult[] {
 
 function App() {
   const route = useRoute();
+  const routeKey = route.kind === "chapter" ? `${route.kind}:${route.slug}` : route.kind;
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
   const [query, setQuery] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -119,6 +120,16 @@ function App() {
   const completedCount = chapters.filter((chapter) => completedSet.has(chapter.slug)).length;
   const progressPercent = Math.round((completedCount / chapters.length) * 100);
   const searchResults = useMemo(() => searchChapters(query), [query]);
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [routeKey]);
 
   useEffect(() => {
     const currentPage = window.location.hash || "#/";

@@ -188,6 +188,20 @@ test.describe("tutorial layout", () => {
     await expect(page.locator(".markdown-body a", { hasText: "用語集" }).first()).toHaveAttribute("href", "#/glossary");
   });
 
+  test("chapter navigation resets the page scroll position", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
+
+    await page.goto("/#/chapters/10-java-program-execution");
+    await expect(page.getByRole("heading", { name: "10章 Javaプログラムの実行" })).toBeVisible();
+
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeGreaterThan(300);
+
+    await page.getByRole("link", { name: /11章 例外処理/ }).click();
+    await expect(page.getByRole("heading", { name: "11章 例外処理" })).toBeVisible();
+    await expect.poll(async () => page.evaluate(() => window.scrollY)).toBeLessThan(20);
+  });
+
   test("code blocks render as dark editor panels", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name.includes("mobile"), "desktop-only layout assertions");
 
